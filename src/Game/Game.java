@@ -8,16 +8,18 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Game {
+public class Game implements KeyListener {
 
     JFrame frame;
     GamePanel gamePanel;
     StatusPanel statusPanel;
     GameArea gameArea;
-    long updateTime = 100;                  // Time for 1 Frame-Update (16 = 60fps)
+    long updateTime = 16;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
     public Game() {
@@ -26,8 +28,6 @@ public class Game {
         initFrame();
         initTimer();
     }
-
-
 
     void initPanels(){
         gamePanel = new GamePanel();
@@ -45,6 +45,8 @@ public class Game {
 
        frame.add(statusPanel, BorderLayout.PAGE_START);
        frame.add(gamePanel, BorderLayout.CENTER);
+
+       frame.addKeyListener(this);
 
        frame.setResizable(false);
        frame.setSize(800, 620);
@@ -64,10 +66,39 @@ public class Game {
 
     // Updates (Redraws) the game
     void update() {
-            System.out.println("Update");
+            //System.out.println("Update");
             gamePanel.repaint();
-            System.out.println(gameArea.debug_flag);
+            //System.out.println(gameArea.debug_flag);
             statusPanel.repaint();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch(e.getKeyChar()) {
+            case 'w':
+                gameArea.player.movement.y = -10;
+                break;
+            case 'a':
+                gameArea.player.movement.x = -10;
+                break;
+            case 's':
+                gameArea.player.movement.y = 10;
+                break;
+            case 'd':
+                gameArea.player.movement.x = 10;
+                break;
+
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        gameArea.player.movement.set(0,0);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
     }
 
 

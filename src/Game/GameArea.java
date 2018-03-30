@@ -15,7 +15,7 @@ public class GameArea {
 
     // Called in GamePanel's repaint method
     void paint(Graphics g){
-
+        player.paint(g);
     }
 
 }

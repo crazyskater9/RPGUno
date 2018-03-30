@@ -42,4 +42,9 @@ public class Vector2D {
         y -= vector.y;
     }
 
+    void set(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
 }
