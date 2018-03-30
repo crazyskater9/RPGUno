@@ -17,7 +17,7 @@ public class Game {
     GamePanel gamePanel;
     StatusPanel statusPanel;
     Player player;
-    long updateTime = 100;
+    long updateTime = 100;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
     public Game() {
