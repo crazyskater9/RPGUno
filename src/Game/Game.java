@@ -16,7 +16,6 @@ public class Game {
     JFrame frame;
     GamePanel gamePanel;
     StatusPanel statusPanel;
-    Player player;
     long updateTime = 100;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
@@ -40,9 +39,6 @@ public class Game {
         frame.setSize(800, 620);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-        // Player init
-        player = new Player();
 
         // Timer init
         gameTimer = new Timer();
