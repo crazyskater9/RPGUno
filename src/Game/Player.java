@@ -15,13 +15,13 @@ public class Player {
 
     void paint(Graphics g) {
 
-        updatePosition();
+        move();
 
         g.setColor(Color.GREEN);
         g.fillRect((int)position.x,(int)position.y,20,20);
     }
 
-    void updatePosition() {
+    void move() {
         position.add(movement);
     }
 
