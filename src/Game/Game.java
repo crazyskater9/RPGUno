@@ -16,19 +16,24 @@ public class Game {
     JFrame frame;
     GamePanel gamePanel;
     StatusPanel statusPanel;
+    GameArea gameArea;
     long updateTime = 100;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
     public Game() {
+        gameArea = new GameArea();
         initPanels();
         initFrame();
         initTimer();
     }
 
+
+
     void initPanels(){
         gamePanel = new GamePanel();
         gamePanel.setBackground(Color.BLACK);
         gamePanel.setPreferredSize(new Dimension(800, 600));
+        gamePanel.setLocalGameArea(gameArea);
 
         statusPanel = new StatusPanel();
         statusPanel.setBackground(Color.GRAY);
@@ -61,6 +66,7 @@ public class Game {
     void update() {
             System.out.println("Update");
             gamePanel.repaint();
+            System.out.println(gameArea.debug_flag);
             statusPanel.repaint();
     }
 

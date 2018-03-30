@@ -5,19 +5,21 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 
-    GameArea game;
+    GameArea localGameArea;
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        game.update();
-
-
+        localGameArea.paint(g);
+        localGameArea.debug_flag = !localGameArea.debug_flag;
     }
 
-    public GamePanel(){
-        game = new GameArea();
+    void setLocalGameArea(GameArea remoteGameArea) {
+        localGameArea = remoteGameArea;
     }
+
+
+
 
 }
