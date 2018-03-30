@@ -20,10 +20,12 @@ public class Game {
     Timer gameTimer;
 
     public Game() {
+        initPanels();
+        initFrame();
+        initTimer();
+    }
 
-        // Window init
-        frame = new JFrame("RPGUno");
-
+    void initPanels(){
         gamePanel = new GamePanel();
         gamePanel.setBackground(Color.BLACK);
         gamePanel.setPreferredSize(new Dimension(800, 600));
@@ -31,25 +33,29 @@ public class Game {
         statusPanel = new StatusPanel();
         statusPanel.setBackground(Color.GRAY);
         statusPanel.setPreferredSize(new Dimension(800, 20));
+   }
 
-        frame.add(statusPanel, BorderLayout.PAGE_START);
-        frame.add(gamePanel, BorderLayout.CENTER);
+   void initFrame(){
+       frame = new JFrame("RPGUno");
 
-        frame.setResizable(false);
-        frame.setSize(800, 620);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+       frame.add(statusPanel, BorderLayout.PAGE_START);
+       frame.add(gamePanel, BorderLayout.CENTER);
 
-        // Timer init
-        gameTimer = new Timer();
-        gameTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                update();
-            }
-        }, 0, updateTime);
+       frame.setResizable(false);
+       frame.setSize(800, 620);
+       frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       frame.setVisible(true);
+   }
 
-    }
+   void initTimer(){
+       gameTimer = new Timer();
+       gameTimer.scheduleAtFixedRate(new TimerTask() {
+           @Override
+           public void run() {
+               update();
+           }
+       }, 0, updateTime);
+   }
 
     // Updates (Redraws) the game
     void update() {
