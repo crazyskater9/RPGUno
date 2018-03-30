@@ -2,13 +2,15 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Clock;
 
 public class StatusPanel extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        //g.setFont(new Font("Dialog", Font.PLAIN, 18));
-        //g.setColor(Color.BLUE);
-        //g.drawString("Hallo Welt", 10,40);
+        g.setFont(new Font("Dialog", Font.PLAIN, 14));
+        g.setColor(Color.BLACK);
+        Clock clock = Clock.systemDefaultZone();
+        g.drawString(String.valueOf(clock.instant()), 10,14);
     }
 }
