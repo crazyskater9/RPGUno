@@ -8,7 +8,6 @@ public class GameArea {
     boolean debug_flag;
 
     public GameArea(){
-        // Player init
         player = new Player();
         debug_flag = false;
     }

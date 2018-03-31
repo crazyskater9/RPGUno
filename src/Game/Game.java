@@ -20,6 +20,7 @@ public class Game {
     long updateTime = 16;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
+
     public Game() {
         gameArea = new GameArea();
         initPanels();
@@ -30,12 +31,12 @@ public class Game {
     void initPanels(){
         gamePanel = new GamePanel();
         gamePanel.setBackground(Color.BLACK);
-        gamePanel.setPreferredSize(new Dimension(800, 600));
+        gamePanel.setPreferredSize(new Dimension(GameData.WIDTH, GameData.HEIGHT));
         gamePanel.setLocalGameArea(gameArea);
 
         statusPanel = new StatusPanel();
         statusPanel.setBackground(Color.GRAY);
-        statusPanel.setPreferredSize(new Dimension(800, 20));
+        statusPanel.setPreferredSize(new Dimension(GameData.WIDTH, 20));
    }
 
    void initFrame(){
@@ -47,7 +48,7 @@ public class Game {
        frame.addKeyListener(new GameKeyListener(gameArea));
 
        frame.setResizable(false);
-       frame.setSize(800, 620);
+       frame.pack();
        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
        frame.setVisible(true);
    }

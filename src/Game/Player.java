@@ -22,7 +22,14 @@ public class Player {
     }
 
     void move() {
+        if(position.x < 10 && movement.x < 0) movement.x = 0;
+        if(position.x > GameData.WIDTH - 10 - 20 && movement.x > 0) movement.x = 0;
+        if(position.y < 10 && movement.y < 0) movement.y = 0;
+        if(position.y > GameData.HEIGHT - 10 - 20 && movement.y > 0) movement.y = 0;
+
         position.add(movement);
+
+        //System.out.println("X: " + position.x + " | Y: " + position.y);
     }
 
 }
