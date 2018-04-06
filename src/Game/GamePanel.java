@@ -7,6 +7,11 @@ public class GamePanel extends JPanel {
 
     GameArea localGameArea;
 
+    public GamePanel(FlowLayout layout)
+    {
+        super(layout);
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);

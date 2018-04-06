@@ -18,6 +18,7 @@ public class Game {
     StatusPanel statusPanel;
     GameArea gameArea;
     GameKeyListener gameKeyListener;
+    GameMouseListener gameMouseListener, statusMouseListener;
     long updateTime;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
@@ -31,14 +32,18 @@ public class Game {
     }
 
     void initPanels(){
-        gamePanel = new GamePanel();
+        gamePanel = new GamePanel(new FlowLayout(FlowLayout.CENTER,0,0));
         gamePanel.setBackground(Color.BLACK);
         gamePanel.setPreferredSize(new Dimension(GameData.WIDTH, GameData.HEIGHT));
         gamePanel.setLocalGameArea(gameArea);
+        gameMouseListener = new GameMouseListener();
+        gamePanel.addMouseListener(gameMouseListener);
 
-        statusPanel = new StatusPanel();
+        statusPanel = new StatusPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         statusPanel.setBackground(Color.GRAY);
         statusPanel.setPreferredSize(new Dimension(GameData.WIDTH, 20));
+        statusMouseListener = new GameMouseListener();
+        statusPanel.addMouseListener(statusMouseListener);
    }
 
    void initFrame(){
