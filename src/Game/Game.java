@@ -8,6 +8,7 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -72,6 +73,7 @@ public class Game {
             gamePanel.repaint();
             //System.out.println(gameArea.debug_flag);
             statusPanel.repaint();
+            if(gameKeyListener.keysPressed.contains((char) 27)) System.exit(0);
     }
 
 }
