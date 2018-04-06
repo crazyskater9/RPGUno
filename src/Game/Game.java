@@ -17,12 +17,14 @@ public class Game {
     GamePanel gamePanel;
     StatusPanel statusPanel;
     GameArea gameArea;
-    long updateTime = 16;                  // Time for 1 Frame-Update (16 = 60fps)
+    GameKeyListener gameKeyListener;
+    long updateTime;                  // Time for 1 Frame-Update (16 = 60fps)
     Timer gameTimer;
 
 
     public Game() {
-        gameArea = new GameArea();
+        gameKeyListener = new GameKeyListener();
+        gameArea = new GameArea(gameKeyListener);
         initPanels();
         initFrame();
         initTimer();
@@ -45,7 +47,7 @@ public class Game {
        frame.add(statusPanel, BorderLayout.PAGE_START);
        frame.add(gamePanel, BorderLayout.CENTER);
 
-       frame.addKeyListener(new GameKeyListener(gameArea));
+       frame.addKeyListener(gameKeyListener);
 
        frame.setResizable(false);
        frame.pack();
@@ -54,8 +56,9 @@ public class Game {
    }
 
    void initTimer(){
-       gameTimer = new Timer();
-       gameTimer.scheduleAtFixedRate(new TimerTask() {
+        updateTime = 16;
+        gameTimer = new Timer();
+        gameTimer.scheduleAtFixedRate(new TimerTask() {
            @Override
            public void run() {
                update();

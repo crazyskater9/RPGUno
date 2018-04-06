@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.*;
+import java.util.Set;
 
 public class Player {
 
@@ -30,6 +31,29 @@ public class Player {
         position.add(movement);
 
         //System.out.println("X: " + position.x + " | Y: " + position.y);
+    }
+
+    void setMovement(Set<Character> keysPressed) {
+        if(keysPressed.size() == 0) movement.set(0,0);
+        else if(keysPressed.size() <= 2) {
+            for(char c: keysPressed) {
+                switch(c) {
+                    case 'w':
+                        movement.y = -10;
+                        break;
+                    case 'a':
+                        movement.x = -10;
+                        break;
+                    case 's':
+                        movement.y = 10;
+                        break;
+                    case 'd':
+                        movement.x = 10;
+                        break;
+
+                }
+            }
+        }
     }
 
 }
