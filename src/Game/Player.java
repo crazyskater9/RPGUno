@@ -7,11 +7,15 @@ public class Player {
 
     Vector2D position;
     Vector2D movement;
+    int width;
+    int height;
 
 
     public Player() {
         position = new Vector2D(400 ,300);
         movement = new Vector2D();
+        width = 20;
+        height = 20;
     }
 
     void paint(Graphics g) {
@@ -19,16 +23,17 @@ public class Player {
         move();
 
         g.setColor(Color.GREEN);
-        g.fillRect((int)position.x,(int)position.y,20,20);
+        g.fillRect((int)position.x,(int)position.y,width,height);
     }
 
     void move() {
-        if(position.x < 10 && movement.x < 0) movement.x = 0;
-        if(position.x > GameData.WIDTH - 10 - 20 && movement.x > 0) movement.x = 0;
-        if(position.y < 10 && movement.y < 0) movement.y = 0;
-        if(position.y > GameData.HEIGHT - 10 - 20 && movement.y > 0) movement.y = 0;
 
         position.add(movement);
+
+        if(position.x < 0) position.x = 0;
+        if(position.x > GameData.WIDTH - width) position.x = GameData.WIDTH - width;
+        if(position.y < 0) position.y = 0;
+        if(position.y > GameData.HEIGHT - height) position.y = GameData.HEIGHT - height;
 
         //System.out.println("X: " + position.x + " | Y: " + position.y);
     }
@@ -60,7 +65,7 @@ public class Player {
                 }
             }
         }
-        else if(keysPressed.size() > 1) {
+        else {
             for(char c: keysPressed) {
                 switch(c) {
                     case 'w':
