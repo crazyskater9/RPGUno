@@ -5,6 +5,13 @@ import java.awt.*;
 import java.time.Clock;
 
 public class StatusPanel extends JPanel {
+
+    public StatusPanel(FlowLayout layout)
+    {
+        super(layout);
+    }
+
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
