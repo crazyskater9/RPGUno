@@ -29,13 +29,4 @@ public class GameArea {
         player.paint(g);
 
     }
-
-    //Called for determining the Panel:
-    /*
-        if(GameData.activePanel instanceof GamePanel)
-        {
-            System.out.println(GameData.activePanel);
-        }
-     */
-
 }

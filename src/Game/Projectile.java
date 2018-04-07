@@ -1,5 +1,7 @@
 package Game;
 
+import java.awt.*;
+
 public class Projectile {
 
     public int lifeTime;
@@ -11,13 +13,25 @@ public class Projectile {
     {
         this.lifeTime = lifeTime;
         this.damageOnHit = damageOnHit;
-        this.position = position;
-        this.movement = movement;
+        this.position = new Vector2D(position);
+        this.movement = new Vector2D(movement);
     }
 
-    public void move()
+    protected void paint(Graphics g) {
+        move();
+        decrementLifeTime();
+    }
+
+    protected void move()
     {
         position.add(movement);
+    }
+
+    protected void decrementLifeTime()
+    {
+        if(lifeTime>0) {
+            lifeTime--;
+        }
     }
 
     public Vector2D getPlayerPosition(Vector2D playerPosition)
