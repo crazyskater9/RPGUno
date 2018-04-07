@@ -17,8 +17,6 @@ public class GamePanel extends JPanel {
         super.paint(g);
 
         localGameArea.paint(g);
-        localGameArea.debug_flag = !localGameArea.debug_flag;
-
     }
 
     void setLocalGameArea(GameArea remoteGameArea) {
