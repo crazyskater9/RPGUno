@@ -19,13 +19,4 @@ public class GameArea {
         player.setMovement(gameKeyListener.keysPressed);
         player.paint(g);
     }
-
-    //Called for determining the Panel:
-    /*
-        if(GameData.activePanel instanceof GamePanel)
-        {
-            System.out.println(GameData.activePanel);
-        }
-     */
-
 }

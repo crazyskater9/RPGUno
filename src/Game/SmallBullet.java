@@ -1,12 +1,20 @@
 package Game;
 
+import java.awt.*;
+
 public class SmallBullet extends Projectile {
 
-
-
     public SmallBullet(Vector2D position, Vector2D movement){
-        super(10,1,position,movement);
+        super(30,1,position,movement);
         debugValues();
+    }
+
+    @Override
+    protected void paint(Graphics g) {
+        super.paint(g);
+
+        g.setColor(Color.WHITE);
+        g.fillRect((int)position.x,(int)position.y,3,3);
     }
 
     private void debugValues(){

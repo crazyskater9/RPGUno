@@ -1,6 +1,9 @@
 package Game;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Player {
@@ -9,6 +12,7 @@ public class Player {
     Vector2D movement;
     int width;
     int height;
+    List<Projectile> projectileList;
 
 
     public Player() {
@@ -16,11 +20,14 @@ public class Player {
         movement = new Vector2D();
         width = 20;
         height = 20;
+        projectileList = new ArrayList<Projectile>();
     }
 
     void paint(Graphics g) {
 
         move();
+        shoot();
+        paintAndCheckProjectiles(g);
 
         g.setColor(Color.GREEN);
         g.fillRect((int)position.x,(int)position.y,width,height);
@@ -55,6 +62,32 @@ public class Player {
         if(keysPressed.contains('w') && keysPressed.contains('s')) movement.y = 0;
         if(keysPressed.contains('a') && keysPressed.contains('d')) movement.x = 0;
 
+    }
+
+    void shoot(){
+        if((GameData.activePanel instanceof GamePanel) && (GameData.clickedMouseButton != 0))
+        {
+            GameData.clickedMouseButton = 0;
+            Vector2D direction = new Vector2D(GameData.mouseX-position.x,GameData.mouseY-position.y);
+            direction.normalize();
+            direction.x*=10;
+            direction.y*=10;
+            projectileList.add(new SmallBullet(position,direction));
+        }
+    }
+    
+    void paintAndCheckProjectiles(Graphics g){
+        for (Iterator<Projectile> iterator = projectileList.iterator(); iterator.hasNext();) {
+            Projectile projectile = iterator.next();
+            if(projectile.lifeTime == 0)
+            {
+                iterator.remove();
+            }
+            else
+            {
+                projectile.paint(g);
+            }
+        }
     }
 
 }
