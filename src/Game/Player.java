@@ -39,7 +39,6 @@ public class Player {
     }
 
     void setMovement(Set<Character> keysPressed) {
-        if(keysPressed.isEmpty()) movement.set(0,0);
 
         if(keysPressed.contains('w') && movement.y >= -10) movement.y -=2;
         else if(movement.y < 0) movement.y +=2;
