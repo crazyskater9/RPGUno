@@ -40,51 +40,22 @@ public class Player {
 
     void setMovement(Set<Character> keysPressed) {
         if(keysPressed.isEmpty()) movement.set(0,0);
-        else if(keysPressed.size() <= 1) {
-            for(char c: keysPressed) {
-                switch(c) {
-                    case 'w':
-                        if(movement.y >= -10) movement.y -=2;
-                        movement.x = 0;
-                        break;
-                    case 'a':
-                        if(movement.x >= -10) movement.x -=2;
-                        movement.y = 0;
-                        break;
-                    case 's':
-                        if(movement.y <= 10) movement.y +=2;
-                        movement.x = 0;
-                        break;
-                    case 'd':
-                        if(movement.x <= 10) movement.x +=2;
-                        movement.y = 0;
-                        break;
-                    default:
-                        movement.set(0,0);
-                        break;
-                }
-            }
-        }
-        else {
-            for(char c: keysPressed) {
-                switch(c) {
-                    case 'w':
-                        if(movement.y >= -10) movement.y -=2;
-                        break;
-                    case 'a':
-                        if(movement.x >= -10) movement.x -=2;
-                        break;
-                    case 's':
-                        if(movement.y <= 10) movement.y +=2;
-                        break;
-                    case 'd':
-                        if(movement.x <= 10) movement.x +=2;
-                        break;
-                }
-            }
-            if(keysPressed.contains('w') && keysPressed.contains('s')) movement.y = 0;
-            if(keysPressed.contains('a') && keysPressed.contains('d')) movement.x = 0;
-        }
+
+        if(keysPressed.contains('w') && movement.y >= -10) movement.y -=2;
+        else if(movement.y < 0) movement.y +=2;
+
+        if(keysPressed.contains('a') && movement.x >= -10) movement.x -=2;
+        else if(movement.x < 0) movement.x +=2;
+
+        if(keysPressed.contains('s') && movement.y <= 10) movement.y +=2;
+        else if(movement.y > 0) movement.y -=2;
+
+        if(keysPressed.contains('d') && movement.x <= 10) movement.x +=2;
+        else if(movement.x > 0) movement.x -=2;
+
+        if(keysPressed.contains('w') && keysPressed.contains('s')) movement.y = 0;
+        if(keysPressed.contains('a') && keysPressed.contains('d')) movement.x = 0;
+
     }
 
 }
