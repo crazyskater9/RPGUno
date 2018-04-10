@@ -1,6 +1,10 @@
 package Game;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +17,7 @@ public class Player {
     int width;
     int height;
     List<Projectile> projectileList;
+    private BufferedImage playerImage;
 
 
     public Player() {
@@ -21,6 +26,11 @@ public class Player {
         width = 20;
         height = 20;
         projectileList = new ArrayList<Projectile>();
+        try {
+            playerImage = ImageIO.read(new File("images/Player.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     void paint(Graphics g) {
@@ -31,7 +41,7 @@ public class Player {
         paintAndCheckProjectiles(g);
 
         g.setColor(Color.GREEN);
-        g.fillRect((int)position.x,(int)position.y,width,height);
+        g.drawImage(playerImage, (int)position.x, (int)position.y,null);
     }
 
     private void move() {
