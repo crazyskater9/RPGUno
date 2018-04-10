@@ -17,7 +17,7 @@ public class Player {
     int width;
     int height;
     List<Projectile> projectileList;
-    private BufferedImage playerImage;
+    private GameImage playerImage;
 
 
     public Player() {
@@ -26,13 +26,9 @@ public class Player {
         curSpeed = 0;
         maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
-        try {
-            playerImage = ImageIO.read(new File("images/Player.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        width = playerImage.getWidth();
-        height = playerImage.getHeight();
+        playerImage = new GameImage(new File("images/Player.png"));
+        width = playerImage.image.getWidth();
+        height = playerImage.image.getHeight();
     }
 
     void paint(Graphics g) {
@@ -42,8 +38,7 @@ public class Player {
         shoot();
         paintAndCheckProjectiles(g);
 
-        g.setColor(Color.GREEN);
-        g.drawImage(playerImage, (int)position.x, (int)position.y,null);
+        playerImage.paint(g, (int)position.x, (int)position.y);
     }
 
     private void move() {
