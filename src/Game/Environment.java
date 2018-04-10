@@ -34,7 +34,7 @@ public class Environment {
         this.passable = passable;
     }
 
-    void paint(Graphics g) {};
+    void paint(Graphics g) {}
 
     boolean isPassable(){return passable;}
 

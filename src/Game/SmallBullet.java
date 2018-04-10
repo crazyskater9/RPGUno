@@ -6,7 +6,7 @@ public class SmallBullet extends Projectile {
 
     public SmallBullet(Vector2D position, Vector2D movement){
         super(30,1,position,movement);
-        debugValues();
+        //debugValues();
     }
 
     @Override

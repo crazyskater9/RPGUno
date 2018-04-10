@@ -19,7 +19,7 @@ public class GameMouseListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-            debugMouseListener("Mouse released # of clicks: "+ e.getClickCount() + ", X: " + e.getX() + ", Y: " + e.getY() + ", Button: " + e.getButton() + ", Source: " + e.getComponent(), e);
+            //debugMouseListener("Mouse released # of clicks: "+ e.getClickCount() + ", X: " + e.getX() + ", Y: " + e.getY() + ", Button: " + e.getButton() + ", Source: " + e.getComponent(), e);
             GameData.mouseX = e.getX();
             GameData.mouseY = e.getY();
             GameData.clickedMouseButton = e.getButton();

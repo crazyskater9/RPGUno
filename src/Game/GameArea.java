@@ -12,7 +12,7 @@ public class GameArea {
     public GameArea(GameKeyListener gameKeyListener){
         player = new Player();
         this.gameKeyListener = gameKeyListener;
-        objects = new ArrayList();
+        objects = new ArrayList<Environment>();
         objects.add(new Wall(100, 100, 80, 80));
         objects.add(new Ground(400,100,80,80));
     }

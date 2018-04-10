@@ -1,22 +1,22 @@
 package Game;
 
-public class Vector2D {
+class Vector2D {
 
-    public float x;
-    public float y;
+    float x;
+    float y;
 
 
-    public Vector2D(){
+    Vector2D(){
         x = 0;
         y = 0;
     }
 
-    public Vector2D(float x, float y){
+    Vector2D(float x, float y){
         this.x = x;
         this.y = y;
     }
 
-    public Vector2D(Vector2D vector){
+    Vector2D(Vector2D vector){
         this.x = vector.x;
         this.y = vector.y;
     }
@@ -25,21 +25,31 @@ public class Vector2D {
         return (float) Math.sqrt(x * x + y * y);
     }
 
-    void normalize() {
+    Vector2D normalize() {
         float magnitude = magnitude();
-
-        x = x / magnitude;
-        y = y / magnitude;
+        if(magnitude > 0) {
+            x = x / magnitude;
+            y = y / magnitude;
+        }
+        return this;
     }
 
-    void add(Vector2D vector) {
+    Vector2D add(Vector2D vector) {
         x += vector.x;
         y += vector.y;
+        return this;
     }
 
-    void subtract(Vector2D vector) {
+    Vector2D subtract(Vector2D vector) {
         x -= vector.x;
         y -= vector.y;
+        return this;
+    }
+
+    Vector2D multiply(int factor) {
+        x *= factor;
+        y *= factor;
+        return this;
     }
 
     void set(float x, float y) {

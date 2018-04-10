@@ -5,15 +5,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class Player {
 
     Vector2D position;
     Vector2D movement;
+    int curSpeed;
+    int maxSpeed;
     int width;
     int height;
     List<Projectile> projectileList;
@@ -22,15 +22,17 @@ public class Player {
 
     public Player() {
         position = new Vector2D(400 ,300);
-        movement = new Vector2D();
-        width = 20;
-        height = 20;
+        movement = new Vector2D(0,0);
+        curSpeed = 0;
+        maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
         try {
             playerImage = ImageIO.read(new File("images/Player.png"));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        width = playerImage.getWidth();
+        height = playerImage.getHeight();
     }
 
     void paint(Graphics g) {
@@ -52,20 +54,20 @@ public class Player {
 
     void setMovement(Set<Character> keysPressed) {
 
-        if(keysPressed.contains('w') && movement.y >= -10) movement.y -=2;
-        else if(movement.y < 0) movement.y +=2;
+        movement.set(0,0);
 
-        if(keysPressed.contains('a') && movement.x >= -10) movement.x -=2;
-        else if(movement.x < 0) movement.x +=2;
+        if(keysPressed.contains('w')) movement.y -= 1;
 
-        if(keysPressed.contains('s') && movement.y <= 10) movement.y +=2;
-        else if(movement.y > 0) movement.y -=2;
+        if(keysPressed.contains('a')) movement.x -= 1;
 
-        if(keysPressed.contains('d') && movement.x <= 10) movement.x +=2;
-        else if(movement.x > 0) movement.x -=2;
+        if(keysPressed.contains('s')) movement.y += 1;
 
-        if(keysPressed.contains('w') && keysPressed.contains('s')) movement.y = 0;
-        if(keysPressed.contains('a') && keysPressed.contains('d')) movement.x = 0;
+        if(keysPressed.contains('d')) movement.x += 1;
+
+        if((movement.x != 0 || movement.y != 0) && curSpeed <= maxSpeed) curSpeed++;
+        else if(curSpeed > 0) curSpeed--;
+
+        movement.normalize().multiply(curSpeed);
     }
 
     private void checkBorders() {
@@ -95,11 +97,15 @@ public class Player {
         if((GameData.activePanel instanceof GamePanel) && (GameData.clickedMouseButton != 0))
         {
             GameData.clickedMouseButton = 0;
+
             Vector2D direction = new Vector2D(GameData.mouseX-position.x,GameData.mouseY-position.y);
-            direction.normalize();
-            direction.x*=10;
-            direction.y*=10;
-            projectileList.add(new SmallBullet(position,direction));
+            direction.normalize().multiply(10);
+
+            Vector2D correctedPosition = new Vector2D(position);
+            correctedPosition.x = correctedPosition.x + width / 2;
+            correctedPosition.y = correctedPosition.y + height / 2;
+
+            projectileList.add(new SmallBullet(correctedPosition,direction));
         }
     }
 
