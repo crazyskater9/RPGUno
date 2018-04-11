@@ -75,4 +75,51 @@ public class GameArea {
             }
         }
     }
+
+    boolean checkOverlapsPlayer(Player player, Environment obj) {
+
+        int x1 = (int) player.position.x;
+        int x2 = (int) obj.position.x;
+        int y1 = (int) player.position.y;
+        int y2 = (int) obj.position.y;
+        int width1 = player.width;
+        int width2 = obj.width;
+        int height1 = player.height;
+        int height2 = obj.height;
+
+        if(x1<x2)
+        {
+            if(x1+width1 <= x2) return false;
+            else
+            {
+                if(y1<y2)
+                {
+                    if(y1+height1 <= y2) return false;
+                    else return true;
+                }
+                else
+                {
+                    if(y2+height2 <= y1) return false;
+                    else return true;
+                }
+            }
+        }
+        else
+        {
+            if(x2+width2 <= x1) return false;
+            else
+            {
+                if(y1<y2)
+                {
+                    if(y1+height1 <= y2) return false;
+                    else return true;
+                }
+                else
+                {
+                    if(y2+height2 <= y1) return false;
+                    else return true;
+                }
+            }
+        }
+    }
 }
