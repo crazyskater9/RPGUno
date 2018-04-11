@@ -1,12 +1,10 @@
 package Game;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class Player {
 
@@ -26,7 +24,7 @@ public class Player {
         curSpeed = 0;
         maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
-        playerImage = new GameImage(new File("images/Player.png"));
+        playerImage = new GameImage("images/Player.png");
         width = playerImage.image.getWidth();
         height = playerImage.image.getHeight();
     }
