@@ -6,27 +6,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class Player {
+public class Player extends Drawable{
 
-    Vector2D position;
     Vector2D movement;
     int curSpeed;
     int maxSpeed;
-    int width;
-    int height;
     List<Projectile> projectileList;
-    private GameImage playerImage;
 
 
     public Player() {
+        super();
         position = new Vector2D(400 ,300);
         movement = new Vector2D(0,0);
         curSpeed = 0;
         maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
-        playerImage = new GameImage("images/Player.png");
-        width = playerImage.image.getWidth();
-        height = playerImage.image.getHeight();
+        gameImage = new GameImage("images/Player.png");
+        width = gameImage.image.getWidth();
+        height = gameImage.image.getHeight();
     }
 
     void paint(Graphics g) {
@@ -36,7 +33,7 @@ public class Player {
         shoot();
         paintAndCheckProjectiles(g);
 
-        playerImage.paint(g, (int)position.x, (int)position.y);
+        super.paint(g);
     }
 
     private void move() {

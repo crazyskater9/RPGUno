@@ -21,7 +21,13 @@ public class GameImage {
         imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
 
         readBoolArrayFromImage();
-        debugImageBoolArray();
+        //debugImageBoolArray();
+    }
+
+    public GameImage(BufferedImage image) {
+        this.image = image;
+        imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
+        readBoolArrayFromImage();
     }
 
     private void readBoolArrayFromImage()

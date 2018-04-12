@@ -2,19 +2,21 @@ package Game;
 
 import java.awt.*;
 
-public class Projectile {
+public class Projectile extends Drawable{
 
     public int lifeTime;
     public int damageOnHit;
-    public Vector2D position;
     public Vector2D movement;
 
-    public Projectile(int lifeTime, int damageOnHit, Vector2D position, Vector2D movement)
+    public Projectile(int lifeTime, int damageOnHit, Vector2D position, Vector2D movement, int width, int height)
     {
+        super();
         this.lifeTime = lifeTime;
         this.damageOnHit = damageOnHit;
         this.position = new Vector2D(position);
         this.movement = new Vector2D(movement);
+        this.width = width;
+        this.height = height;
     }
 
     protected void paint(Graphics g) {

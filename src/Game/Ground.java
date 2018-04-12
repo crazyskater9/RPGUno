@@ -15,9 +15,4 @@ public class Ground extends Environment {
         super(x, y, width, height, color, true);
     }
 
-    @Override
-    void paint(Graphics g) {
-        g.setColor(color);
-        g.fillRect((int)position.x, (int)position.y, width, height);
-    }
 }

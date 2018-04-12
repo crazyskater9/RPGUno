@@ -1,45 +1,68 @@
 package Game;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
-public class Environment {
+public class Environment extends Drawable{
 
-    Vector2D position;
-    int width;
-    int height;
     Color color;
     private boolean passable;
 
     public Environment() {
-        position = new Vector2D();
+        super();
+        position = new Vector2D(0,0);
         width = 0;
         height = 0;
         color = Color.BLACK;
         passable = false;
+        gameImage = new GameImage(getColoredImage(width,height,color));
     }
 
     public Environment(Vector2D position, int width, int height, Color color, boolean passable) {
+        super();
         this.position = new Vector2D(position);
         this.width = width;
         this.height = height;
         this.color = color;
         this.passable = passable;
+        gameImage = new GameImage(getColoredImage(this.width,this.height,this.color));
     }
 
     public Environment(int x, int y, int width, int height, Color color, boolean passable) {
+        super();
         this.position = new Vector2D(x,y);
         this.width = width;
         this.height = height;
         this.color = color;
         this.passable = passable;
+        gameImage = new GameImage(getColoredImage(this.width,this.height,this.color));
     }
 
-    void paint(Graphics g) {}
+    public Environment(int x, int y, int width, int height, boolean passable, String imagePath) {
+        super();
+        this.position = new Vector2D(x,y);
+        this.width = width;
+        this.height = height;
+        this.passable = passable;
+        gameImage = new GameImage(imagePath);
+    }
 
     boolean isPassable(){return passable;}
 
     boolean isNotPassable(){return !passable;}
 
     void setPassable(boolean x) {passable = x;}
+
+    BufferedImage getColoredImage(int width, int height, Color color) {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        for(int i = 0 ; i < width ; i++){
+            for(int j = 0 ; j < height ; j++) {
+                image.setRGB(i,j,color.getRGB());
+            }
+        }
+
+        return image;
+    }
 
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 public class SmallBullet extends Projectile {
 
     public SmallBullet(Vector2D position, Vector2D movement){
-        super(30,1,position,movement);
+        super(30,1,position,movement,3,3);
         //debugValues();
     }
 
@@ -14,7 +14,7 @@ public class SmallBullet extends Projectile {
         super.paint(g);
 
         g.setColor(Color.WHITE);
-        g.fillRect((int)position.x,(int)position.y,3,3);
+        g.fillRect((int)position.x,(int)position.y,width,height);
     }
 
     private void debugValues(){
