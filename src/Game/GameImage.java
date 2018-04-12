@@ -39,14 +39,7 @@ public class GameImage {
             for(int j=0;j<image.getHeight();j++)
             {
                 pixel = image.getRGB(i,j);
-                if(isTransparent(pixel))
-                {
-                    imageBoolArray[i][j] = true;
-                }
-                else
-                {
-                    imageBoolArray[i][j] = false;
-                }
+                imageBoolArray[i][j] = isTransparent(pixel);
             }
         }
     }
@@ -73,7 +66,6 @@ public class GameImage {
     }
 
     private boolean isTransparent(int pixel) {
-        if( (pixel>>24) == 0x00 ) return true;
-        else return false;
+        return (pixel >> 24) == 0x00;
     }
 }
