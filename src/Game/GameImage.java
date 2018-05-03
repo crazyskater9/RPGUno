@@ -39,13 +39,14 @@ public class GameImage {
             for(int j=0;j<image.getHeight();j++)
             {
                 pixel = image.getRGB(i,j);
-                imageBoolArray[i][j] = isTransparent(pixel);
+                imageBoolArray[i][j] = !isTransparent(pixel);
             }
         }
     }
 
     private void debugImageBoolArray()
     {
+        System.out.print(image.getSource());
         for(int i=0;i<image.getHeight();i++)
         {
             for(int j=0;j<image.getWidth();j++)

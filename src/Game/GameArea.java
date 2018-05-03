@@ -23,55 +23,109 @@ public class GameArea {
         for(Environment e: objects) {
             e.paint(g);
         }
+        player.paint(g);
 
         player.setMovement(gameKeyListener.keysPressed);
-        player.checkEnvironment(objects);
+        checkOverlapsPlayer();
+        player.move();
+
+        //player.checkEnvironment(objects);
 //        System.out.println(checkOverlaps((int)player.position.x, (int)player.position.y, player.width, player.height, (int)objects.get(1).position.x, (int)objects.get(1).position.y, objects.get(1).width, objects.get(1).height));
-        System.out.println(isDrawableOverlapping(player, objects.get(1)));
-        player.paint(g);
+
+
+        System.out.println(compareBoolArrays(player, objects.get(0)));
+
+
 
 
     }
 
-    boolean compareBoolArrays(boolean[][] array1, int x1, int y1, int width1, int height1, boolean[][] array2, int x2, int y2, int width2, int height2)
+    boolean checkOverlapsPlayer()
     {
-        //for(int i = )
+        Player comparePlayer = new Player(player);
+        Vector2D correctionVector = new Vector2D();
+        comparePlayer.move();
+        for(Environment o: objects)
+        {
+            if(compareBoolArrays(comparePlayer, o)&&o.isNotPassable())
+            {
+                comparePlayer.movement.set(-comparePlayer.movement.x,-comparePlayer.movement.y);
+                comparePlayer.movement.normalize();
+                do{
+                    correctionVector.add(comparePlayer.movement);
+                    comparePlayer.move();
+                }while(compareBoolArrays(comparePlayer,o));
+                player.movement.add(correctionVector);
+                return true;
+            }
+        }
         return false;
     }
 
-    boolean checkOverlaps(int x1,int y1,int width1,int height1,int x2,int y2,int width2,int height2)
+    boolean compareBoolArrays(Drawable d1, Drawable d2)
     {
-        if(x1<x2)
+        if(d1.position.x<d2.position.x)
         {
-            if(x1+width1 <= x2) return false;
+            if(d1.position.x+d1.width <= d2.position.x) return false;
             else
             {
-                if(y1<y2)
+                if(d1.position.y<d2.position.y)
                 {
-                    if(y1+height1 <= y2) return false;
-                    else return true;
+                    if(d1.position.y+d1.height <= d2.position.y) return false;
+                    else
+                    {
+                        for(int i=0;i<d1.position.x+d1.width-d2.position.x;i++) {
+                            for(int j=0;j<d1.position.y+d1.height-d2.position.y;j++){
+                                if(d1.gameImage.imageBoolArray[(int)(d2.position.x-d1.position.x)+i][(int)(d2.position.y-d1.position.y)+j] && d2.gameImage.imageBoolArray[i][j]) return true;
+                            }
+                        }
+                        return false;
+                    }
                 }
                 else
                 {
-                    if(y2+height2 <= y1) return false;
-                    else return true;
+                    if(d2.position.y+d2.height <= d1.position.y) return false;
+                    else
+                    {
+                        for(int i=0;i<d1.position.x+d1.width-d2.position.x;i++) {
+                            for(int j=0;j<d2.position.y+d2.height-d1.position.y;j++){
+                                if(d1.gameImage.imageBoolArray[(int)(d2.position.x-d1.position.x)+i][j] && d2.gameImage.imageBoolArray[i][(int)(d1.position.y-d2.position.y)+j]) return true;
+                            }
+                        }
+                        return false;
+                    }
                 }
             }
         }
         else
         {
-            if(x2+width2 <= x1) return false;
+            if(d2.position.x+d2.width <= d1.position.x) return false;
             else
             {
-                if(y1<y2)
+                if(d1.position.y<d2.position.y)
                 {
-                    if(y1+height1 <= y2) return false;
-                    else return true;
+                    if(d1.position.y+d1.height <= d2.position.y) return false;
+                    else{
+                        for(int i=0;i<d2.position.x+d2.width-d1.position.x;i++) {
+                            for(int j=0;j<d1.position.y+d1.height-d2.position.y;j++){
+                                if(d1.gameImage.imageBoolArray[i][(int)(d2.position.y-d1.position.y)+j] && d2.gameImage.imageBoolArray[(int)(d1.position.x-d2.position.x)+i][j]) return true;
+                            }
+                        }
+                        return false;
+                    }
                 }
                 else
                 {
-                    if(y2+height2 <= y1) return false;
-                    else return true;
+                    if(d2.position.y+d2.height <= d1.position.y) return false;
+                    else
+                    {
+                        for(int i=0;i<d2.position.x+d2.width-d1.position.x;i++) {
+                            for(int j=0;j<d2.position.y+d2.height-d1.position.y;j++){
+                                if(d1.gameImage.imageBoolArray[i][j] && d2.gameImage.imageBoolArray[(int)(d1.position.x-d2.position.x)+i][(int)(d1.position.y-d2.position.y)+j]) return true;
+                            }
+                        }
+                        return false;
+                    }
                 }
             }
         }

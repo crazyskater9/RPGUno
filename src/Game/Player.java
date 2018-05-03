@@ -26,17 +26,24 @@ public class Player extends Drawable{
         height = gameImage.image.getHeight();
     }
 
+    public Player(Player player) {
+        super();
+        this.position = new Vector2D(player.position.x ,player.position.y);
+        this.movement = new Vector2D(player.movement.x,player.movement.y);
+        this.gameImage = new GameImage("images/Player.png");
+        this.width = gameImage.image.getWidth();
+        this.height = gameImage.image.getHeight();
+    }
+
     void paint(Graphics g) {
 
-        move();
         checkBorders();
         shoot();
         paintAndCheckProjectiles(g);
-
         super.paint(g);
     }
 
-    private void move() {
+    public void move() {
 
         position.add(movement);
         //System.out.println("X: " + position.x + " | Y: " + position.y);
