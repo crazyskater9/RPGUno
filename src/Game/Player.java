@@ -95,14 +95,18 @@ public class Player extends Drawable{
         {
             GameData.clickedMouseButton = 0;
 
-            Vector2D direction = new Vector2D(GameData.mouseX-position.x,GameData.mouseY-position.y);
+            Vector2D direction = new Vector2D(GameData.mouseX-position.x-gameImage.image.getWidth()/2,GameData.mouseY-position.y-gameImage.image.getHeight()/2);
             direction.normalize().multiply(10);
 
             Vector2D correctedPosition = new Vector2D(position);
             correctedPosition.x = correctedPosition.x + width / 2;
             correctedPosition.y = correctedPosition.y + height / 2;
 
-            projectileList.add(new SmallBullet(correctedPosition,direction));
+            Projectile projectileToAdd = new SmallBullet(correctedPosition,direction);
+            projectileToAdd.position.x -= projectileToAdd.gameImage.image.getWidth()/2;
+            projectileToAdd.position.y -= projectileToAdd.gameImage.image.getHeight()/2;
+
+            projectileList.add(projectileToAdd);
         }
     }
 

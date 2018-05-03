@@ -5,16 +5,13 @@ import java.awt.*;
 public class SmallBullet extends Projectile {
 
     public SmallBullet(Vector2D position, Vector2D movement){
-        super(30,1,position,movement,3,3);
+        super(30,1,position,movement, "images/SmallBullet.png");
         //debugValues();
     }
 
     @Override
     protected void paint(Graphics g) {
         super.paint(g);
-
-        g.setColor(Color.WHITE);
-        g.fillRect((int)position.x,(int)position.y,width,height);
     }
 
     private void debugValues(){

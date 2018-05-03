@@ -25,6 +25,13 @@ class Vector2D {
         return (float) Math.sqrt(x * x + y * y);
     }
 
+    float angle() {
+        if(y>0)
+            return -(float) ((float) (Math.acos(x/magnitude()))*180.0/Math.PI);
+        else
+            return (float) ((float) (Math.acos(x/magnitude()))*180.0/Math.PI);
+    }
+
     Vector2D normalize() {
         float magnitude = magnitude();
         if(magnitude > 0) {

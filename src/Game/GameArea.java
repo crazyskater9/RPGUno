@@ -32,12 +32,6 @@ public class GameArea {
         //player.checkEnvironment(objects);
 //        System.out.println(checkOverlaps((int)player.position.x, (int)player.position.y, player.width, player.height, (int)objects.get(1).position.x, (int)objects.get(1).position.y, objects.get(1).width, objects.get(1).height));
 
-
-        System.out.println(compareBoolArrays(player, objects.get(0)));
-
-
-
-
     }
 
     boolean checkOverlapsPlayer()
