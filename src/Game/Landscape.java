@@ -19,10 +19,14 @@ public class Landscape {
 
     public Landscape(String filename)
     {
+        objects = new ArrayList<Drawable>();
         File file = new File(filename);
         int length = (int) file.length();
         System.out.println(length);
         byte[] bytes = ByteBuffer.allocate(length).array();
+        ArrayList<String> objectTypeList = getObjectTypeList();
+        int indexForObjectTypeSearch = 0;
+        boolean escapeFlag = false;
 
         FileInputStream fis;
         try{
@@ -31,14 +35,110 @@ public class Landscape {
             //System.out.println(bytes);
 
             byte[] arr = ByteBuffer.allocate(4).array();
-            for(int i=0;i<4;i++)
-            {
-                arr[i] = bytes[i];
-            }
+            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
             ByteBuffer wrapped = ByteBuffer.wrap(arr);
-            int num = wrapped.getInt();
+            width = wrapped.getInt();
+            indexForObjectTypeSearch += 4;
 
-            System.out.println(num);
+            arr = ByteBuffer.allocate(4).array();
+            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+            wrapped = ByteBuffer.wrap(arr);
+            height = wrapped.getInt();
+            indexForObjectTypeSearch += 4;
+
+            String compareObjectTypeString;
+
+            while(indexForObjectTypeSearch<length)
+            {
+                for(String s: objectTypeList)
+                {
+                    escapeFlag = true;
+                    arr = ByteBuffer.allocate(s.length()).array();
+                    System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,s.length());
+                    compareObjectTypeString = new String(arr);
+
+                    if(s.equals(compareObjectTypeString))
+                    {
+                        indexForObjectTypeSearch += s.length();
+                        if(s.equals("PLAYER"))
+                        {
+                            Vector2D position = new Vector2D();
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.x = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.y = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            objects.add(new Player(position));
+                        }
+                        else if(s.equals("WALL"))
+                        {
+                            Vector2D position = new Vector2D();
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.x = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.y = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            objects.add(new Wall((int) position.x,(int) position.y));
+                        }
+                        else if(s.equals("GROUND"))
+                        {
+                            int width, height;
+                            Vector2D position = new Vector2D();
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            width = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            height = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.x = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            position.y = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
+                            objects.add(new Ground((int) position.x,(int) position.y, width, height));
+                        }
+                        escapeFlag = false;
+                        if(indexForObjectTypeSearch>=length)break;
+                    }
+                }
+                if(escapeFlag == true)
+                {
+                    System.out.println("Error while converting File-Structure!!!");
+                    break;
+                }
+            }
+
+            System.out.println(width);
+            System.out.println(height);
 
 
 
@@ -47,6 +147,15 @@ public class Landscape {
         {
             System.out.println(e);
         }
+    }
+
+    private ArrayList<String> getObjectTypeList(){
+        ArrayList<String> objectTypeList = new ArrayList<String>();
+        objectTypeList.add("PLAYER");
+        objectTypeList.add("WALL");
+        objectTypeList.add("GROUND");
+
+        return objectTypeList;
     }
 
     public boolean toFile(){

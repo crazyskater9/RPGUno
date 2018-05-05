@@ -15,12 +15,11 @@ public class GameArea {
 
         landscape = new Landscape("levels/level1.map");
 
-        landscape = new Landscape(10000,10000,new ArrayList<Drawable>());
+        /*landscape = new Landscape(10000,10000,new ArrayList<Drawable>());
         landscape.objects.add(new Wall(100, 100));
         landscape.objects.add(new Ground(400,100,80,80));
         landscape.objects.add(new Player());
-
-        landscape.toFile();
+        landscape.toFile();*/
     }
 
     // Called in GamePanel's repaint method
