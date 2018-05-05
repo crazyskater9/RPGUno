@@ -8,7 +8,6 @@ public class Projectile extends Drawable{
 
     public int lifeTime;
     public int damageOnHit;
-    public Vector2D movement;
 
     public Projectile(int lifeTime, int damageOnHit, Vector2D position, Vector2D movement, String imagePath)
     {
@@ -20,6 +19,7 @@ public class Projectile extends Drawable{
         this.gameImage = new GameImage(imagePath);
         this.width = gameImage.image.getWidth();
         this.height = gameImage.image.getHeight();
+        passable = false;
     }
 
     protected void paint(Graphics g) {
@@ -34,11 +34,6 @@ public class Projectile extends Drawable{
 
         // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(gameImage.image, null), (int)position.x, (int)position.y, null);
-    }
-
-    protected void move()
-    {
-        position.add(movement);
     }
 
     protected void decrementLifeTime()

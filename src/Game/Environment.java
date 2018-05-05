@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 public class Environment extends Drawable{
 
     Color color;
-    private boolean passable;
 
     public Environment() {
         super();
@@ -38,20 +37,14 @@ public class Environment extends Drawable{
         gameImage = new GameImage(getColoredImage(this.width,this.height,this.color));
     }
 
-    public Environment(int x, int y, int width, int height, boolean passable, String imagePath) {
+    public Environment(int x, int y, boolean passable, String imagePath) {
         super();
         this.position = new Vector2D(x,y);
-        this.width = width;
-        this.height = height;
         this.passable = passable;
         gameImage = new GameImage(imagePath);
+        this.width = gameImage.image.getWidth();
+        this.height = gameImage.image.getHeight();
     }
-
-    boolean isPassable(){return passable;}
-
-    boolean isNotPassable(){return !passable;}
-
-    void setPassable(boolean x) {passable = x;}
 
     BufferedImage getColoredImage(int width, int height, Color color) {
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

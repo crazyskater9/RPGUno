@@ -9,7 +9,6 @@ import java.io.IOException;
 public class GameImage {
 
     public BufferedImage image;
-    //public File imagePath;
     boolean[][] imageBoolArray;
 
     public GameImage(String imagePath){
@@ -22,6 +21,12 @@ public class GameImage {
 
         readBoolArrayFromImage();
         //debugImageBoolArray();
+    }
+
+    public GameImage(GameImage gameImage){
+        this.image = gameImage.image;
+        imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
+        readBoolArrayFromImage();
     }
 
     public GameImage(BufferedImage image) {

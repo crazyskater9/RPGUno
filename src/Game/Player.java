@@ -8,7 +8,6 @@ import java.util.Set;
 
 public class Player extends Drawable{
 
-    Vector2D movement;
     int curSpeed;
     int maxSpeed;
     List<Projectile> projectileList;
@@ -24,6 +23,7 @@ public class Player extends Drawable{
         gameImage = new GameImage("images/Player.png");
         width = gameImage.image.getWidth();
         height = gameImage.image.getHeight();
+        passable = false;
     }
 
     public Player(Player player) {
@@ -33,6 +33,7 @@ public class Player extends Drawable{
         this.gameImage = new GameImage("images/Player.png");
         this.width = gameImage.image.getWidth();
         this.height = gameImage.image.getHeight();
+        passable = false;
     }
 
     void paint(Graphics g) {
@@ -43,12 +44,7 @@ public class Player extends Drawable{
         super.paint(g);
     }
 
-    public void move() {
-
-        position.add(movement);
-        //System.out.println("X: " + position.x + " | Y: " + position.y);
-    }
-
+    @Override
     void setMovement(Set<Character> keysPressed) {
 
         movement.set(0,0);

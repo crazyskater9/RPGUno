@@ -47,7 +47,7 @@ class Vector2D {
         return this;
     }
 
-    Vector2D subtract(Vector2D vector) {
+    Vector2D substract(Vector2D vector) {
         x -= vector.x;
         y -= vector.y;
         return this;
