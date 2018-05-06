@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class GameArea {
 
@@ -14,10 +15,12 @@ public class GameArea {
         this.gameKeyListener = gameKeyListener;
         landscape = new Landscape("levels/level1.map");
 
-        /*landscape = new Landscape(10000,10000,new ArrayList<Drawable>());
-        landscape.objects.add(new Wall(100, 100));
-        landscape.objects.add(new Ground(400,100,80,80));
-        landscape.objects.add(new Player());
+        //Temp. Level-Editor
+        /*ArrayList<Drawable> objects = new ArrayList<Drawable>();
+        objects.add(new Ground(0,0,10000,10000));
+        objects.add(new Wall(100, 100));
+        objects.add(new Player());
+        landscape = new Landscape(10000,10000,objects);
         landscape.toFile();*/
     }
 
@@ -41,6 +44,27 @@ public class GameArea {
             Drawable compareDrawable = new Drawable(o1);
             Vector2D correctionVector = new Vector2D();
             compareDrawable.move();
+
+            if((compareDrawable.position.x < 0) ||
+                    (compareDrawable.position.x > Landscape.WIDTH - o1.width) ||
+                    (compareDrawable.position.y < 0) ||
+                    (compareDrawable.position.y > Landscape.HEIGHT - o1.height))
+            {
+                compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
+                compareDrawable.movement.normalize();
+                do{
+                    correctionVector.add(compareDrawable.movement);
+                    compareDrawable.move();
+                }while((compareDrawable.position.x < 0) ||
+                        (compareDrawable.position.x > Landscape.WIDTH - o1.width) ||
+                        (compareDrawable.position.y < 0) ||
+                        (compareDrawable.position.y > Landscape.HEIGHT - o1.height));
+                o1.movement.add(correctionVector);
+                compareDrawable = new Drawable(o1);
+                correctionVector = new Vector2D();
+                compareDrawable.move();
+            }
+
             for(Drawable o2: landscape.objects)
             {
                 if(!o1.equals(o2) && o1.isNotPassable() && o2.isNotPassable())

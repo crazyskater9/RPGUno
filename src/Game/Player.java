@@ -24,6 +24,7 @@ public class Player extends Drawable{
         position = new Vector2D(GameData.WIDTH/2 - width/2,GameData.HEIGHT/2 - height/2);
         movement = new Vector2D(0,0);
         passable = false;
+        GameData.middleOfScreenPosition = new Vector2D(position);
     }
 
     public Player(Vector2D position) {
@@ -37,6 +38,7 @@ public class Player extends Drawable{
         this.position = new Vector2D(position);
         movement = new Vector2D(0,0);
         passable = false;
+        GameData.middleOfScreenPosition = new Vector2D(position);
     }
 
     public Player(Player player) {

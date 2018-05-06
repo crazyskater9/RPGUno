@@ -26,7 +26,7 @@ public class Landscape {
         byte[] bytes = ByteBuffer.allocate(length).array();
         ArrayList<String> objectTypeList = getObjectTypeList();
         int indexForObjectTypeSearch = 0;
-        boolean escapeFlag = false;
+        int escapeFlag = 0;
 
         FileInputStream fis;
         try{
@@ -52,7 +52,7 @@ public class Landscape {
             {
                 for(String s: objectTypeList)
                 {
-                    escapeFlag = true;
+                    escapeFlag++;
                     arr = ByteBuffer.allocate(s.length()).array();
                     System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,s.length());
                     compareObjectTypeString = new String(arr);
@@ -127,17 +127,21 @@ public class Landscape {
 
                             objects.add(new Ground((int) position.x,(int) position.y, width, height));
                         }
-                        escapeFlag = false;
+                        escapeFlag = 0;
                         if(indexForObjectTypeSearch>=length)break;
                     }
                 }
-                if(escapeFlag == true)
+                if(escapeFlag > 1)
                 {
                     System.out.println("Error while converting File-Structure!!!");
+                    for(Drawable d: objects)
+                    {
+                        System.out.print(d + "  " + d.position.x + "  " + d.position.y);
+                    }
                     break;
                 }
             }
-
+            fis.close();
             System.out.println(WIDTH);
             System.out.println(HEIGHT);
 
