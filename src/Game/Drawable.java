@@ -24,7 +24,8 @@ public class Drawable {
         this.passable = drawable.passable;
     }
 
-    void paint(Graphics g) {gameImage.paint(g,(int)position.x,(int)position.y);}
+    void paint(Graphics g) {gameImage.paint(g,GameData.WIDTH/2 + (int)position.x - (int)GameData.middleOfScreenPosition.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.middleOfScreenPosition.y);}
+    //void paint(Graphics g){gameImage.paint(g,(int)position.x ,(int)position.y);};
 
     boolean isPassable(){return passable;}
 

@@ -10,4 +10,6 @@ public class GameData {
     public static int mouseY;
     public static int clickedMouseButton;
     public static JPanel activePanel;
+
+    public static Vector2D middleOfScreenPosition;
 }

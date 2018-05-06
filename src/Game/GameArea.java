@@ -12,7 +12,6 @@ public class GameArea {
 
     public GameArea(GameKeyListener gameKeyListener){
         this.gameKeyListener = gameKeyListener;
-
         landscape = new Landscape("levels/level1.map");
 
         /*landscape = new Landscape(10000,10000,new ArrayList<Drawable>());
@@ -30,6 +29,7 @@ public class GameArea {
                 d.setMovement(gameKeyListener.keysPressed);
                 checkOverlaps();
                 d.move();
+                GameData.middleOfScreenPosition.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
             }
         }
     }

@@ -33,7 +33,7 @@ public class Projectile extends Drawable{
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
         // Drawing the rotated image at the required drawing locations
-        g.drawImage(op.filter(gameImage.image, null), (int)position.x, (int)position.y, null);
+        g.drawImage(op.filter(gameImage.image, null), GameData.WIDTH/2 + (int)position.x - (int)GameData.middleOfScreenPosition.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.middleOfScreenPosition.y, null);
     }
 
     protected void decrementLifeTime()
