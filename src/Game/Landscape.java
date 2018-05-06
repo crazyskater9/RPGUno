@@ -7,13 +7,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
 public class Landscape {
-    int width;
-    int height;
+    public static int WIDTH;
+    public static int HEIGHT;
     ArrayList<Drawable> objects;
 
     public Landscape(int width, int height, ArrayList<Drawable> objects) {
-        this.height = height;
-        this.width = width;
+        this.HEIGHT = height;
+        this.WIDTH = width;
         this.objects = new ArrayList<Drawable>(objects);
     }
 
@@ -37,13 +37,13 @@ public class Landscape {
             byte[] arr = ByteBuffer.allocate(4).array();
             System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
             ByteBuffer wrapped = ByteBuffer.wrap(arr);
-            width = wrapped.getInt();
+            WIDTH = wrapped.getInt();
             indexForObjectTypeSearch += 4;
 
             arr = ByteBuffer.allocate(4).array();
             System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
             wrapped = ByteBuffer.wrap(arr);
-            height = wrapped.getInt();
+            HEIGHT = wrapped.getInt();
             indexForObjectTypeSearch += 4;
 
             String compareObjectTypeString;
@@ -138,8 +138,8 @@ public class Landscape {
                 }
             }
 
-            System.out.println(width);
-            System.out.println(height);
+            System.out.println(WIDTH);
+            System.out.println(HEIGHT);
 
 
 
@@ -164,9 +164,9 @@ public class Landscape {
         try {
             fos = new FileOutputStream("levels/level1.map");
             byte[] bytes;
-            bytes = ByteBuffer.allocate(4).putInt(width).array();
+            bytes = ByteBuffer.allocate(4).putInt(WIDTH).array();
             fos.write(bytes);
-            bytes = ByteBuffer.allocate(4).putInt(height).array();
+            bytes = ByteBuffer.allocate(4).putInt(HEIGHT).array();
             fos.write(bytes);
 
             for(Drawable d: objects) {

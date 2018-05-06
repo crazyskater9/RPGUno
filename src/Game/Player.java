@@ -78,9 +78,9 @@ public class Player extends Drawable{
 
     private void checkBorders() {
         if(position.x < 0) position.x = 0;
-        if(position.x > GameData.WIDTH - width) position.x = GameData.WIDTH - width;
+        if(position.x > Landscape.WIDTH - width) position.x = Landscape.WIDTH - width;
         if(position.y < 0) position.y = 0;
-        if(position.y > GameData.HEIGHT - height) position.y = GameData.HEIGHT - height;
+        if(position.y > Landscape.HEIGHT - height) position.y = Landscape.HEIGHT - height;
     }
 
     void checkEnvironment(ArrayList<Environment> objects) {
