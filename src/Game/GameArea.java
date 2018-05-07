@@ -29,6 +29,7 @@ public class GameArea {
         for(Drawable d: landscape.objects) {
             d.paint(g);
             if(d instanceof Player){
+                //System.out.println("Player.x = " + d.position.x + " | Player.y = " + d.position.y + "\nGameData.middleOfScreenPosition.x = " + GameData.middleOfScreenPosition.x+ " | GameData.middleOfScreenPosition.x = " + GameData.middleOfScreenPosition.y);
                 d.setMovement(gameKeyListener.keysPressed);
                 checkOverlaps();
                 d.move();

@@ -76,7 +76,6 @@ public class Landscape {
                             indexForObjectTypeSearch += 4;
 
                             objects.add(new Player(position));
-                            GameData.middleOfScreenPosition = new Vector2D(position);
                         }
                         else if(s.equals("WALL"))
                         {
