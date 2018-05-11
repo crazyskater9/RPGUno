@@ -22,7 +22,7 @@ public class Landscape {
         objects = new ArrayList<Drawable>();
         File file = new File(filename);
         int length = (int) file.length();
-        System.out.println(length);
+//        System.out.println(length);
         byte[] bytes = ByteBuffer.allocate(length).array();
         ArrayList<String> objectTypeList = getObjectTypeList();
         int indexForObjectTypeSearch = 0;
@@ -141,8 +141,8 @@ public class Landscape {
                 }
             }
             fis.close();
-            System.out.println(WIDTH);
-            System.out.println(HEIGHT);
+//            System.out.println(WIDTH);
+//            System.out.println(HEIGHT);
 
 
 

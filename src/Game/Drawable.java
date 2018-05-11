@@ -10,6 +10,7 @@ public class Drawable {
     int height;
     GameImage gameImage;
     protected boolean passable;
+    int health;
 
     public Drawable(){
         this.movement = new Vector2D();
@@ -18,14 +19,23 @@ public class Drawable {
     public Drawable(Drawable drawable){
         this.position = new Vector2D(drawable.position);
         this.movement = new Vector2D(drawable.movement);
-        this.gameImage = new GameImage("images/Player.png");
+        this.gameImage = new GameImage("images/Player.png");    // Etwas problematisch ? drawable.gameImage als Attribut nicht nutzbar
         this.width = gameImage.image.getWidth();
         this.height = gameImage.image.getHeight();
         this.passable = drawable.passable;
     }
 
-    void paint(Graphics g) {gameImage.paint(g,GameData.WIDTH/2 + (int)position.x - (int)GameData.middleOfScreenPosition.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.middleOfScreenPosition.y);}
-    //void paint(Graphics g){gameImage.paint(g,(int)position.x ,(int)position.y);};
+    public Drawable(Vector2D position, Vector2D movement, GameImage gameImage, boolean passable, int health) {
+        this.position = new Vector2D(position);
+        this.movement = new Vector2D(movement);
+        this.gameImage = new GameImage(gameImage);
+        this.width = gameImage.image.getWidth();
+        this.height = gameImage.image.getHeight();
+        this.passable = passable;
+        this.health = health;
+    }
+
+    void paint(Graphics g) {gameImage.paint(g,GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y);}
 
     boolean isPassable(){return passable;}
 
@@ -37,5 +47,4 @@ public class Drawable {
         position.add(movement);
     }
 
-    void setMovement(Set<Character> keysPressed) {}
 }

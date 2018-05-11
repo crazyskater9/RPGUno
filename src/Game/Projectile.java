@@ -11,15 +11,9 @@ public class Projectile extends Drawable{
 
     public Projectile(int lifeTime, int damageOnHit, Vector2D position, Vector2D movement, String imagePath)
     {
-        super();
+        super(position, movement, new GameImage(imagePath), false, -1);
         this.lifeTime = lifeTime;
         this.damageOnHit = damageOnHit;
-        this.position = new Vector2D(position);
-        this.movement = new Vector2D(movement);
-        this.gameImage = new GameImage(imagePath);
-        this.width = gameImage.image.getWidth();
-        this.height = gameImage.image.getHeight();
-        passable = false;
     }
 
     protected void paint(Graphics g) {
@@ -33,7 +27,7 @@ public class Projectile extends Drawable{
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
         // Drawing the rotated image at the required drawing locations
-        g.drawImage(op.filter(gameImage.image, null), GameData.WIDTH/2 + (int)position.x - (int)GameData.middleOfScreenPosition.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.middleOfScreenPosition.y, null);
+        g.drawImage(op.filter(gameImage.image, null), GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y, null);
     }
 
     protected void decrementLifeTime()

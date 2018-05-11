@@ -11,6 +11,18 @@ public class GameImage {
     public BufferedImage image;
     boolean[][] imageBoolArray;
 
+    public GameImage() {
+        try {
+            image = ImageIO.read(new File("images/Player.png"));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
+
+        readBoolArrayFromImage();
+        //debugImageBoolArray();
+    }
+
     public GameImage(String imagePath){
         try {
             image = ImageIO.read(new File(imagePath));

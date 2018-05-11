@@ -3,52 +3,37 @@ package Game;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class Player extends Drawable{
 
     int curSpeed;
     int maxSpeed;
-    List<Projectile> projectileList;
+    ArrayList<Projectile> projectileList;
 
 
     public Player() {
-        super();
+        super(new Vector2D(), new Vector2D(), new GameImage("images/Player.png"), false, 10);
         curSpeed = 0;
         maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
-        gameImage = new GameImage("images/Player.png");
-        width = gameImage.image.getWidth();
-        height = gameImage.image.getHeight();
         position = new Vector2D(GameData.WIDTH/2 - width/2,GameData.HEIGHT/2 - height/2);
-        movement = new Vector2D(0,0);
-        passable = false;
-        GameData.middleOfScreenPosition = new Vector2D(position.x + width/2, position.y + height/2);
+
+        GameData.landscapeToPlayerVector = new Vector2D(position.x + width/2, position.y + height/2);
     }
 
     public Player(Vector2D position) {
-        super();
+        super(position, new Vector2D(), new GameImage("images/Player.png"), false, 10);
         curSpeed = 0;
         maxSpeed = 10;
         projectileList = new ArrayList<Projectile>();
-        gameImage = new GameImage("images/Player.png");
-        width = gameImage.image.getWidth();
-        height = gameImage.image.getHeight();
-        this.position = new Vector2D(position);
-        movement = new Vector2D(0,0);
-        passable = false;
-        GameData.middleOfScreenPosition = new Vector2D(position.x + width/2, position.y + height/2);
+        position = new Vector2D(GameData.WIDTH/2 - width/2,GameData.HEIGHT/2 - height/2);
+
+        GameData.landscapeToPlayerVector = new Vector2D(position.x + width/2, position.y + height/2);
     }
 
     public Player(Player player) {
-        super();
-        this.position = new Vector2D(player.position.x ,player.position.y);
-        this.movement = new Vector2D(player.movement.x,player.movement.y);
-        this.gameImage = new GameImage("images/Player.png");
-        this.width = gameImage.image.getWidth();
-        this.height = gameImage.image.getHeight();
-        passable = false;
+        super(player.position, player.movement, player.gameImage, player.passable, player.health);
     }
 
     void paint(Graphics g) {
@@ -59,7 +44,6 @@ public class Player extends Drawable{
         gameImage.paint(g,GameData.WIDTH/2 - width/2 ,GameData.HEIGHT/2 - height/2);
     }
 
-    @Override
     void setMovement(Set<Character> keysPressed) {
 
         movement.set(0,0);
@@ -85,28 +69,12 @@ public class Player extends Drawable{
         if(position.y > Landscape.HEIGHT - height) position.y = Landscape.HEIGHT - height;
     }
 
-    void checkEnvironment(ArrayList<Environment> objects) {
-        for(Environment e: objects) {
-            if(e.isNotPassable()) {
-                if(position.y <= e.position.y + e.height && position.y + height >= e.position.y) {
-                    if(position.x + movement.x <= e.position.x + e.width && position.x >e.position.x && movement.x < 0) movement.x = 0;
-                    else if(position.x + movement.x + width >= e.position.x && position.x < e.position.x && movement.x > 0) movement.x = 0;
-                }
-
-                if(position.x <= e.position.x + e.width && position.x + width >= e.position.x) {
-                    if(position.y + movement.y <= e.position.y + e.height && position.y >e.position.y && movement.y < 0) movement.y = 0;
-                    else if(position.y + movement.y + height >= e.position.y && position.y < e.position.y && movement.y > 0) movement.y = 0;
-                }
-            }
-
-        }
-    }
     void shoot(){
         if((GameData.activePanel instanceof GamePanel) && (GameData.clickedMouseButton != 0))
         {
             GameData.clickedMouseButton = 0;
 
-            Vector2D direction = new Vector2D(GameData.mouseX - GameData.WIDTH/2 + (int)position.x - (int)GameData.middleOfScreenPosition.x + gameImage.image.getWidth()/2,GameData.mouseY - GameData.HEIGHT/2 + (int)position.y - (int)GameData.middleOfScreenPosition.y + gameImage.image.getHeight()/2);
+            Vector2D direction = new Vector2D(GameData.mouseX - GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x + gameImage.image.getWidth()/2,GameData.mouseY - GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y + gameImage.image.getHeight()/2);
             direction.normalize().multiply(10);
 
             Vector2D correctedPosition = new Vector2D(position);
@@ -124,12 +92,11 @@ public class Player extends Drawable{
     void paintAndCheckProjectiles(Graphics g){
         for (Iterator<Projectile> iterator = projectileList.iterator(); iterator.hasNext();) {
             Projectile projectile = iterator.next();
-            if(projectile.lifeTime == 0)
-            {
+
+            if(projectile.lifeTime == 0) {
                 iterator.remove();
             }
-            else
-            {
+            else {
                 projectile.paint(g);
             }
         }

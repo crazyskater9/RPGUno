@@ -1,10 +1,7 @@
 package Game;
 
 import java.awt.*;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class GameArea {
 
@@ -17,10 +14,10 @@ public class GameArea {
 
         //Temp. Level-Editor
         /*ArrayList<Drawable> objects = new ArrayList<Drawable>();
-        objects.add(new Ground(0,0,10000,10000));
+        objects.add(new Ground(0,0,1000,1000));
         objects.add(new Wall(100, 100));
         objects.add(new Player());
-        landscape = new Landscape(10000,10000,objects);
+        landscape = new Landscape(1000,1000,objects);
         landscape.toFile();*/
     }
 
@@ -29,11 +26,12 @@ public class GameArea {
         for(Drawable d: landscape.objects) {
             d.paint(g);
             if(d instanceof Player){
-                //System.out.println("Player.x = " + d.position.x + " | Player.y = " + d.position.y + "\nGameData.middleOfScreenPosition.x = " + GameData.middleOfScreenPosition.x+ " | GameData.middleOfScreenPosition.x = " + GameData.middleOfScreenPosition.y);
-                d.setMovement(gameKeyListener.keysPressed);
+                //System.out.println("Player.x = " + d.position.x + " | Player.y = " + d.position.y + "\nGameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.x+ " | GameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.y);
+                ((Player) d).setMovement(gameKeyListener.keysPressed);
                 checkOverlaps();
+                checkProjectileHits(((Player) d).projectileList);
                 d.move();
-                GameData.middleOfScreenPosition.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
+                GameData.landscapeToPlayerVector.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
             }
         }
     }
@@ -46,21 +44,18 @@ public class GameArea {
             Vector2D correctionVector = new Vector2D();
             compareDrawable.move();
 
-            if((compareDrawable.position.x < 0) ||
-                    (compareDrawable.position.x > Landscape.WIDTH - o1.width) ||
-                    (compareDrawable.position.y < 0) ||
-                    (compareDrawable.position.y > Landscape.HEIGHT - o1.height))
+            if(isDrawableOutOfBounds(compareDrawable))
             {
                 compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
                 compareDrawable.movement.normalize();
+
                 do{
                     correctionVector.add(compareDrawable.movement);
                     compareDrawable.move();
-                }while((compareDrawable.position.x < 0) ||
-                        (compareDrawable.position.x > Landscape.WIDTH - o1.width) ||
-                        (compareDrawable.position.y < 0) ||
-                        (compareDrawable.position.y > Landscape.HEIGHT - o1.height));
+                }while(isDrawableOutOfBounds(compareDrawable));
+
                 o1.movement.add(correctionVector);
+
                 compareDrawable = new Drawable(o1);
                 correctionVector = new Vector2D();
                 compareDrawable.move();
@@ -85,6 +80,31 @@ public class GameArea {
             }
         }
         return false;
+    }
+
+    Drawable checkProjectileHits(ArrayList<Projectile> projectileList)
+    {
+        for(Projectile projectile: projectileList)
+        {
+            if(isDrawableOutOfBounds(projectile)){
+                projectile.lifeTime = 0;
+                return null;
+            }
+
+            for(Drawable drawable: landscape.objects)
+            {
+                if(drawable.isNotPassable() && !(drawable instanceof Player))
+                {
+                    if(compareBoolArrays(projectile, drawable))
+                    {
+                        projectile.lifeTime = 0;
+
+                        return drawable;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     boolean compareBoolArrays(Drawable d1, Drawable d2)
@@ -154,5 +174,12 @@ public class GameArea {
                 }
             }
         }
+    }
+
+    boolean isDrawableOutOfBounds(Drawable drawable) {
+        return (drawable.position.x < 0)
+                || (drawable.position.x > Landscape.WIDTH - drawable.width)
+                || (drawable.position.y < 0)
+                || (drawable.position.y > Landscape.HEIGHT - drawable.height);
     }
 }

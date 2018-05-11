@@ -8,42 +8,29 @@ public class Environment extends Drawable{
     Color color;
 
     public Environment() {
-        super();
-        position = new Vector2D(0,0);
-        width = 0;
-        height = 0;
+        super(new Vector2D(), new Vector2D(), new GameImage(), false, -1);
         color = Color.BLACK;
-        passable = false;
         gameImage = new GameImage(getColoredImage(width,height,color));
     }
 
-    public Environment(Vector2D position, int width, int height, Color color, boolean passable) {
-        super();
-        this.position = new Vector2D(position);
+    public Environment(Vector2D position, int width, int height, Color color, boolean passable, int health) {
+        super(position, new Vector2D(), new GameImage(), passable, health);
         this.width = width;
         this.height = height;
         this.color = color;
-        this.passable = passable;
         gameImage = new GameImage(getColoredImage(this.width,this.height,this.color));
     }
 
-    public Environment(int x, int y, int width, int height, Color color, boolean passable) {
-        super();
-        this.position = new Vector2D(x,y);
+    public Environment(int x, int y, int width, int height, Color color, boolean passable, int health) {
+        super(new Vector2D(x,y), new Vector2D(), new GameImage(), passable, health);
         this.width = width;
         this.height = height;
         this.color = color;
-        this.passable = passable;
         gameImage = new GameImage(getColoredImage(this.width,this.height,this.color));
     }
 
-    public Environment(int x, int y, boolean passable, String imagePath) {
-        super();
-        this.position = new Vector2D(x,y);
-        this.passable = passable;
-        gameImage = new GameImage(imagePath);
-        this.width = gameImage.image.getWidth();
-        this.height = gameImage.image.getHeight();
+    public Environment(int x, int y, boolean passable, int health, String imagePath) {
+        super(new Vector2D(x,y), new Vector2D(), new GameImage(imagePath), passable, health);
     }
 
     BufferedImage getColoredImage(int width, int height, Color color) {
