@@ -63,6 +63,7 @@ public class Landscape {
                         if(s.equals("PLAYER"))
                         {
                             Vector2D position = new Vector2D();
+
                             arr = ByteBuffer.allocate(4).array();
                             System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
                             wrapped = ByteBuffer.wrap(arr);
@@ -80,6 +81,14 @@ public class Landscape {
                         else if(s.equals("WALL"))
                         {
                             Vector2D position = new Vector2D();
+                            int health;
+
+                            arr = ByteBuffer.allocate(4).array();
+                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+                            wrapped = ByteBuffer.wrap(arr);
+                            health = wrapped.getInt();
+                            indexForObjectTypeSearch += 4;
+
                             arr = ByteBuffer.allocate(4).array();
                             System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
                             wrapped = ByteBuffer.wrap(arr);
@@ -92,7 +101,7 @@ public class Landscape {
                             position.y = wrapped.getInt();
                             indexForObjectTypeSearch += 4;
 
-                            objects.add(new Wall((int) position.x,(int) position.y));
+                            objects.add(new Wall((int) position.x, (int) position.y, health));
                         }
                         else if(s.equals("GROUND"))
                         {
@@ -135,7 +144,7 @@ public class Landscape {
                     System.out.println("Error while converting File-Structure!!!");
                     for(Drawable d: objects)
                     {
-                        System.out.print(d + "  " + d.position.x + "  " + d.position.y);
+                        System.out.println(d + "  " + d.position.x + "  " + d.position.y);
                     }
                     break;
                 }
@@ -178,6 +187,8 @@ public class Landscape {
                 }
                 else if(d instanceof Wall){
                     fos.write("WALL".getBytes());
+                    bytes = ByteBuffer.allocate(4).putInt(d.health).array();
+                    fos.write(bytes);
                 }
                 else if(d instanceof Ground){
                     fos.write("GROUND".getBytes());

@@ -2,6 +2,7 @@ package Game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class GameArea {
 
@@ -13,9 +14,10 @@ public class GameArea {
         landscape = new Landscape("levels/level1.map");
 
         //Temp. Level-Editor
-        /*ArrayList<Drawable> objects = new ArrayList<Drawable>();
+/*        ArrayList<Drawable> objects = new ArrayList<Drawable>();
         objects.add(new Ground(0,0,1000,1000));
         objects.add(new Wall(100, 100));
+        objects.add(new Wall(200,100, 10));
         objects.add(new Player());
         landscape = new Landscape(1000,1000,objects);
         landscape.toFile();*/
@@ -29,7 +31,12 @@ public class GameArea {
                 //System.out.println("Player.x = " + d.position.x + " | Player.y = " + d.position.y + "\nGameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.x+ " | GameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.y);
                 ((Player) d).setMovement(gameKeyListener.keysPressed);
                 checkOverlaps();
-                checkProjectileHits(((Player) d).projectileList);
+
+                Drawable temp = checkProjectileHits(((Player) d).projectileList);
+                if(temp != null){
+                    System.out.println(temp + " Health: " + temp.health);
+                }
+//                checkProjectileHits(((Player) d).projectileList);
                 d.move();
                 GameData.landscapeToPlayerVector.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
             }
@@ -91,15 +98,21 @@ public class GameArea {
                 return null;
             }
 
-            for(Drawable drawable: landscape.objects)
+            for(Iterator<Drawable> iterator = landscape.objects.iterator(); iterator.hasNext();)
             {
+                Drawable drawable = iterator.next();
+
                 if(drawable.isNotPassable() && !(drawable instanceof Player))
                 {
                     if(compareBoolArrays(projectile, drawable))
                     {
                         projectile.lifeTime = 0;
-
-                        return drawable;
+                        if(drawable.health > 0) drawable.health-=projectile.damageOnHit;
+                        if(drawable.health == 0) {
+                            iterator.remove();
+                            return null;
+                        }
+                        else return drawable;
                     }
                 }
             }
