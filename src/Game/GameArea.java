@@ -109,6 +109,7 @@ public class GameArea {
                         projectile.lifeTime = 0;
                         if(drawable.health > 0) drawable.health-=projectile.damageOnHit;
                         if(drawable.health == 0) {
+                            // I think this is not 100% clean...
                             iterator.remove();
                             return null;
                         }
