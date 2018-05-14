@@ -25,18 +25,15 @@ public class GameArea {
 
     // Called in GamePanel's repaint method
     void paint(Graphics g){
-        for(Drawable d: landscape.objects) {
-            d.paint(g);
+        for(Iterator<Drawable> iterator = landscape.objects.iterator(); iterator.hasNext();) {
+            Drawable d = iterator.next();
+            if(d.health == 0) iterator.remove();
+            else d.paint(g);
+
             if(d instanceof Player){
-                //System.out.println("Player.x = " + d.position.x + " | Player.y = " + d.position.y + "\nGameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.x+ " | GameData.landscapeToPlayerVector.x = " + GameData.landscapeToPlayerVector.y);
                 ((Player) d).setMovement(gameKeyListener.keysPressed);
                 checkOverlaps();
-
-                Drawable temp = checkProjectileHits(((Player) d).projectileList);
-                if(temp != null){
-                    System.out.println(temp + " Health: " + temp.health);
-                }
-//                checkProjectileHits(((Player) d).projectileList);
+                checkProjectileHits(((Player) d).projectileList);
                 d.move();
                 GameData.landscapeToPlayerVector.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
             }
@@ -89,36 +86,27 @@ public class GameArea {
         return false;
     }
 
-    Drawable checkProjectileHits(ArrayList<Projectile> projectileList)
+    void checkProjectileHits(ArrayList<Projectile> projectileList)
     {
         for(Projectile projectile: projectileList)
         {
             if(isDrawableOutOfBounds(projectile)){
                 projectile.lifeTime = 0;
-                return null;
             }
 
-            for(Iterator<Drawable> iterator = landscape.objects.iterator(); iterator.hasNext();)
-            {
-                Drawable drawable = iterator.next();
-
-                if(drawable.isNotPassable() && !(drawable instanceof Player))
-                {
-                    if(compareBoolArrays(projectile, drawable))
-                    {
+            for (Drawable drawable : landscape.objects) {
+                if (drawable.isNotPassable() && !(drawable instanceof Player)) {
+                    if (compareBoolArrays(projectile, drawable)) {
                         projectile.lifeTime = 0;
-                        if(drawable.health > 0) drawable.health-=projectile.damageOnHit;
-                        if(drawable.health == 0) {
-                            // I think this is not 100% clean...
-                            iterator.remove();
-                            return null;
-                        }
-                        else return drawable;
+
+                        if (drawable.health - projectile.damageOnHit > 0) drawable.health -= projectile.damageOnHit;
+                        else if (drawable.health != -1) drawable.health = 0;
+
+//                        System.out.println(drawable + " was hit for " + projectile.damageOnHit + " Damage | Health = " + drawable.health);
                     }
                 }
             }
         }
-        return null;
     }
 
     boolean compareBoolArrays(Drawable d1, Drawable d2)

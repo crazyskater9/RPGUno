@@ -34,16 +34,16 @@ public class Landscape {
             fis.read(bytes);
             //System.out.println(bytes);
 
-            byte[] arr = ByteBuffer.allocate(4).array();
+            ByteBuffer wrapped;
+            /*arr = ByteBuffer.allocate(4).array();
             System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
             ByteBuffer wrapped = ByteBuffer.wrap(arr);
             WIDTH = wrapped.getInt();
+            indexForObjectTypeSearch += 4;*/
+            WIDTH = readIntFromFile(bytes, indexForObjectTypeSearch);
             indexForObjectTypeSearch += 4;
 
-            arr = ByteBuffer.allocate(4).array();
-            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-            wrapped = ByteBuffer.wrap(arr);
-            HEIGHT = wrapped.getInt();
+            HEIGHT = readIntFromFile(bytes, indexForObjectTypeSearch);
             indexForObjectTypeSearch += 4;
 
             String compareObjectTypeString;
@@ -53,7 +53,7 @@ public class Landscape {
                 for(String s: objectTypeList)
                 {
                     escapeFlag++;
-                    arr = ByteBuffer.allocate(s.length()).array();
+                    byte[] arr = ByteBuffer.allocate(s.length()).array();
                     System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,s.length());
                     compareObjectTypeString = new String(arr);
 
@@ -64,16 +64,10 @@ public class Landscape {
                         {
                             Vector2D position = new Vector2D();
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.x = wrapped.getInt();
+                            position.x = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.y = wrapped.getInt();
+                            position.y = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
                             objects.add(new Player(position));
@@ -83,22 +77,13 @@ public class Landscape {
                             Vector2D position = new Vector2D();
                             int health;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            health = wrapped.getInt();
+                            health = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.x = wrapped.getInt();
+                            position.x = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.y = wrapped.getInt();
+                            position.y = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
                             objects.add(new Wall((int) position.x, (int) position.y, health));
@@ -108,29 +93,16 @@ public class Landscape {
                             int width, height;
                             Vector2D position = new Vector2D();
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            width = wrapped.getInt();
+                            width = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            height = wrapped.getInt();
+                            height = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.x = wrapped.getInt();
+                            position.x = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
-                            arr = ByteBuffer.allocate(4).array();
-                            System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
-                            wrapped = ByteBuffer.wrap(arr);
-                            position.y = wrapped.getInt();
+                            position.y = readIntFromFile(bytes, indexForObjectTypeSearch);
                             indexForObjectTypeSearch += 4;
 
                             objects.add(new Ground((int) position.x,(int) position.y, width, height));
@@ -169,6 +141,13 @@ public class Landscape {
         objectTypeList.add("GROUND");
 
         return objectTypeList;
+    }
+
+    private int readIntFromFile(byte[] bytes, int indexForObjectTypeSearch) {
+        byte[] arr = ByteBuffer.allocate(4).array();
+        System.arraycopy(bytes,indexForObjectTypeSearch,arr,0,4);
+        ByteBuffer wrapped = ByteBuffer.wrap(arr);
+        return wrapped.getInt();
     }
 
     public boolean toFile(){
