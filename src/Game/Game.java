@@ -57,6 +57,7 @@ public class Game {
        frame.setResizable(false);
        frame.pack();
        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       frame.setLocationRelativeTo(null);
        frame.setVisible(true);
    }
 

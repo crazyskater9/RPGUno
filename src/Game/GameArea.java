@@ -13,6 +13,15 @@ public class GameArea {
         this.gameKeyListener = gameKeyListener;
         landscape = new Landscape("levels/level1.map");
 
+        ArrayList<Vector2D> movementPath = new ArrayList<Vector2D>();
+        for(int i = 0; i < 20; i++) {
+            movementPath.add(new Vector2D(i, 100));
+        }
+        for(int i = 0; i < 20; i++) {
+            movementPath.add(new Vector2D(20 - i, 100));
+        }
+        landscape.objects.add(new Hostile(new Vector2D(300,100), new Vector2D(), movementPath));
+
         //Temp. Level-Editor
 /*        ArrayList<Drawable> objects = new ArrayList<Drawable>();
         objects.add(new Ground(0,0,1000,1000));
@@ -36,6 +45,9 @@ public class GameArea {
                 checkProjectileHits(((Player) d).projectileList);
                 d.move();
                 GameData.landscapeToPlayerVector.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
+            }
+            else if(d instanceof Hostile) {
+                d.move();
             }
         }
     }
