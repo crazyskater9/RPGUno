@@ -9,21 +9,11 @@ import java.io.IOException;
 public class GameImage {
 
     public BufferedImage image;
+    public String imagePath;
     boolean[][] imageBoolArray;
 
-    public GameImage() {
-        try {
-            image = ImageIO.read(new File("images/Player.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
-
-        readBoolArrayFromImage();
-        //debugImageBoolArray();
-    }
-
     public GameImage(String imagePath){
+        this.imagePath = imagePath;
         try {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException ex) {
@@ -36,12 +26,14 @@ public class GameImage {
     }
 
     public GameImage(GameImage gameImage){
+        this.imagePath = gameImage.imagePath;
         this.image = gameImage.image;
         imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
         readBoolArrayFromImage();
     }
 
     public GameImage(BufferedImage image) {
+        this.imagePath = null;
         this.image = image;
         imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
         readBoolArrayFromImage();
@@ -85,5 +77,17 @@ public class GameImage {
 
     private boolean isTransparent(int pixel) {
         return (pixel >> 24) == 0x00;
+    }
+
+    public static BufferedImage getColoredImage(int width, int height, Color color) {
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        for(int i = 0 ; i < width ; i++){
+            for(int j = 0 ; j < height ; j++) {
+                image.setRGB(i,j,color.getRGB());
+            }
+        }
+
+        return image;
     }
 }

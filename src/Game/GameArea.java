@@ -56,44 +56,47 @@ public class GameArea {
     {
         for(Drawable o1: landscape.objects)
         {
-            Drawable compareDrawable = new Drawable(o1);
-            Vector2D correctionVector = new Vector2D();
-            compareDrawable.move();
-
-            if(isDrawableOutOfBounds(compareDrawable))
-            {
-                compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
-                compareDrawable.movement.normalize();
-
-                do{
-                    correctionVector.add(compareDrawable.movement);
-                    compareDrawable.move();
-                }while(isDrawableOutOfBounds(compareDrawable));
-
-                o1.movement.add(correctionVector);
-
-                compareDrawable = new Drawable(o1);
-                correctionVector = new Vector2D();
+            if(!(o1 instanceof Ground)) {
+                Drawable compareDrawable = new Drawable(o1);
+                Vector2D correctionVector = new Vector2D();
                 compareDrawable.move();
-            }
 
-            for(Drawable o2: landscape.objects)
-            {
-                if(!o1.equals(o2) && o1.isNotPassable() && o2.isNotPassable())
+                if(isDrawableOutOfBounds(compareDrawable))
                 {
-                    if(compareBoolArrays(compareDrawable, o2))
+                    compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
+                    compareDrawable.movement.normalize();
+
+                    do{
+                        correctionVector.add(compareDrawable.movement);
+                        compareDrawable.move();
+                    }while(isDrawableOutOfBounds(compareDrawable));
+
+                    o1.movement.add(correctionVector);
+
+                    compareDrawable = new Drawable(o1);
+                    correctionVector = new Vector2D();
+                    compareDrawable.move();
+                }
+
+                for(Drawable o2: landscape.objects)
+                {
+                    if(!o1.equals(o2) && o1.isNotPassable() && o2.isNotPassable() && !(o2 instanceof Ground))
                     {
-                        compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
-                        compareDrawable.movement.normalize();
-                        do{
-                            correctionVector.add(compareDrawable.movement);
-                            compareDrawable.move();
-                        }while(compareBoolArrays(compareDrawable,o2));
-                        o1.movement.add(correctionVector);
-                        return true;
+                        if(compareBoolArrays(compareDrawable, o2))
+                        {
+                            compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
+                            compareDrawable.movement.normalize();
+                            do{
+                                correctionVector.add(compareDrawable.movement);
+                                compareDrawable.move();
+                            }while(compareBoolArrays(compareDrawable,o2));
+                            o1.movement.add(correctionVector);
+                            return true;
+                        }
                     }
                 }
             }
+
         }
         return false;
     }

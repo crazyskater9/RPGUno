@@ -1,7 +1,6 @@
 package Game;
 
 import java.awt.*;
-import java.util.Set;
 
 public class Drawable {
     Vector2D position;
@@ -19,9 +18,12 @@ public class Drawable {
     public Drawable(Drawable drawable){
         this.position = new Vector2D(drawable.position);
         this.movement = new Vector2D(drawable.movement);
-        this.gameImage = new GameImage("images/Player.png");    // Etwas problematisch ? drawable.gameImage als Attribut nicht nutzbar
-        this.width = gameImage.image.getWidth();
-        this.height = gameImage.image.getHeight();
+
+        if(drawable.gameImage.imagePath != null) this.gameImage = new GameImage(drawable.gameImage.imagePath);
+        else this.gameImage = new GameImage(GameImage.getColoredImage(drawable.width, drawable.height, Color.BLACK));
+
+        this.width = drawable.width;
+        this.height = drawable.height;
         this.passable = drawable.passable;
     }
 
