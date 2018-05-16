@@ -16,7 +16,7 @@ public class Projectile extends Drawable{
         this.damageOnHit = damageOnHit;
     }
 
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         move();
         decrementLifeTime();
 

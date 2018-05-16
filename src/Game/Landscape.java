@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Landscape {
     public static int WIDTH;
     public static int HEIGHT;
-    ArrayList<Drawable> objects;
+    public ArrayList<Drawable> objects;
 
     public Landscape(int width, int height, ArrayList<Drawable> objects) {
         this.HEIGHT = height;

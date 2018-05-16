@@ -10,7 +10,7 @@ public class SmallBullet extends Projectile {
     }
 
     @Override
-    protected void paint(Graphics g) {
+    public void paint(Graphics g) {
         super.paint(g);
     }
 

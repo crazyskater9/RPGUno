@@ -36,7 +36,7 @@ public class Player extends Drawable{
         super(player.position, player.movement, player.gameImage, player.passable, player.health);
     }
 
-    void paint(Graphics g) {
+    public void paint(Graphics g) {
 
         checkBorders();
         shoot();
