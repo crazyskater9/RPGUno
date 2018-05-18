@@ -102,4 +102,8 @@ public class Player extends Drawable{
         }
     }
 
+    @Override
+    public String toString() {
+        return "Player (" + position.x + ", " + position.y + ")";
+    }
 }

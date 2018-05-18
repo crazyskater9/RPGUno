@@ -3,10 +3,10 @@ package Game;
 import java.awt.*;
 
 public class Drawable {
-    Vector2D position;
-    Vector2D movement;
-    int width;
-    int height;
+    public Vector2D position;
+    public Vector2D movement;
+    public int width;
+    public int height;
     GameImage gameImage;
     protected boolean passable;
     int health;
@@ -47,6 +47,10 @@ public class Drawable {
 
     public void move() {
         position.add(movement);
+    }
+
+    public String toString() {
+        return "Drawable (" + position.x + ", " + position.y + ")";
     }
 
 }

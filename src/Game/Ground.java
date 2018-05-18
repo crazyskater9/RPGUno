@@ -15,4 +15,8 @@ public class Ground extends Environment {
         super(x, y, width, height, color, true, -1);
     }
 
+    @Override
+    public String toString() {
+        return "Ground (" + position.x + ", " + position.y + ")";
+    }
 }

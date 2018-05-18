@@ -1,9 +1,9 @@
 package Game;
 
-class Vector2D {
+public class Vector2D {
 
-    float x;
-    float y;
+    public float x;
+    public float y;
 
 
     Vector2D(){

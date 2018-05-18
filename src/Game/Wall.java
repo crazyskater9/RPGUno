@@ -10,4 +10,8 @@ public class Wall extends Environment {
         super(x, y, false, health,"images/Wall.png");
     }
 
+    @Override
+    public String toString() {
+        return "Wall (" + position.x + ", " + position.y + ")";
+    }
 }
