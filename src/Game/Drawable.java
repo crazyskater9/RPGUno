@@ -9,7 +9,7 @@ public class Drawable {
     public int height;
     GameImage gameImage;
     protected boolean passable;
-    int health;
+    public int health;
 
     public Drawable(){
         this.movement = new Vector2D();
