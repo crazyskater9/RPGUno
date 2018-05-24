@@ -7,7 +7,7 @@ public class Drawable {
     public Vector2D movement;
     public int width;
     public int height;
-    GameImage gameImage;
+    public GameImage gameImage;
     protected boolean passable;
     public int health;
 
