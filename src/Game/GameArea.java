@@ -13,14 +13,7 @@ public class GameArea {
         this.gameKeyListener = gameKeyListener;
         landscape = new Landscape("levels/level1.map");
 
-        ArrayList<Vector2D> movementPath = new ArrayList<Vector2D>();
-        for(int i = 0; i < 20; i++) {
-            movementPath.add(new Vector2D(i, 100));
-        }
-        for(int i = 0; i < 20; i++) {
-            movementPath.add(new Vector2D(20 - i, 100));
-        }
-        landscape.objects.add(new Hostile(new Vector2D(300,100), new Vector2D(), movementPath));
+        landscape.objects.add(new Hostile(new Vector2D(300,100),1, "images/enemy1.png", 10, 300));
 
         //Temp. Level-Editor
 /*        ArrayList<Drawable> objects = new ArrayList<Drawable>();
@@ -45,8 +38,9 @@ public class GameArea {
                 checkProjectileHits(((Player) d).projectileList);
                 d.move();
                 GameData.landscapeToPlayerVector.set((int) d.position.x + d.width/2, (int) d.position.y + d.height/2);
+                Hostile.playerMiddlePosition.set(d.position.x + d.width/2, d.position.y + d.height/2);
             }
-            else if(d instanceof Hostile) {
+            else if(d instanceof Hostile){
                 d.move();
             }
         }
@@ -84,11 +78,13 @@ public class GameArea {
                     {
                         if(compareBoolArrays(compareDrawable, o2))
                         {
-                            compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
+//                            compareDrawable.movement.set(-compareDrawable.movement.x,-compareDrawable.movement.y);
+                            compareDrawable.movement.set(compareDrawable.position.x - o2.position.x, compareDrawable.position.y - o2.position.y);
                             compareDrawable.movement.normalize();
                             do{
                                 correctionVector.add(compareDrawable.movement);
                                 compareDrawable.move();
+//                                if(o2 instanceof Hostile) System.out.println(correctionVector.toString());
                             }while(compareBoolArrays(compareDrawable,o2));
                             o1.movement.add(correctionVector);
                             return true;
@@ -144,7 +140,16 @@ public class GameArea {
                     {
                         for(int i=0;i < d1PositionXInt + d1.width - d2PositionXInt;i++) {
                             for(int j=0;j < d1PositionYInt + d1.height - d2PositionYInt;j++){
-                                if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt +i][d2PositionYInt-d1PositionYInt +j] && d2.gameImage.imageBoolArray[i][j]) return true;
+                                if(d2PositionXInt-d1PositionXInt + i >= d1.height-1
+                                        || d2PositionYInt-d1PositionYInt + j >= d1.width-1) return false;
+
+                                try{
+                                    if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt + i][d2PositionYInt-d1PositionYInt + j] && d2.gameImage.imageBoolArray[i][j]) return true;
+
+                                }
+                                catch (ArrayIndexOutOfBoundsException ex){
+                                   ex.printStackTrace();
+                                }
                             }
                         }
                         return false;
@@ -158,7 +163,15 @@ public class GameArea {
                     {
                         for(int i=0;i < d1PositionXInt+d1.width-d2PositionXInt;i++) {
                             for(int j=0;j < d2PositionYInt+d2.height-d1PositionYInt;j++){
-                                if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt +i][j] && d2.gameImage.imageBoolArray[i][d1PositionYInt-d2PositionYInt +j]) return true;
+                                if(d2PositionXInt-d1PositionXInt + i >= d1.height-1
+                                        || d1PositionYInt-d2PositionYInt + j >= d2.width-1) return false;
+                                try{
+                                    if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt + i][j] && d2.gameImage.imageBoolArray[i][d1PositionYInt-d2PositionYInt + j]) return true;
+
+                                }
+                                catch (ArrayIndexOutOfBoundsException ex){
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                         return false;
@@ -178,7 +191,15 @@ public class GameArea {
                     else{
                         for(int i=0;i < d2PositionXInt+d2.width-d1PositionXInt;i++) {
                             for(int j=0;j < d1PositionYInt+d1.height-d2PositionYInt;j++){
-                                if(d1.gameImage.imageBoolArray[i][d2PositionYInt - d1PositionYInt +j] && d2.gameImage.imageBoolArray[d1PositionXInt - d2PositionXInt +i][j]) return true;
+                                if(d2PositionYInt - d1PositionYInt + j >= d1.height-1
+                                        || d1PositionXInt - d2PositionXInt + i >= d2.width-1) return false;
+                                try{
+                                    if(d1.gameImage.imageBoolArray[i][d2PositionYInt - d1PositionYInt + j] && d2.gameImage.imageBoolArray[d1PositionXInt - d2PositionXInt + i][j]) return true;
+
+                                }
+                                catch (ArrayIndexOutOfBoundsException ex){
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                         return false;
@@ -192,7 +213,15 @@ public class GameArea {
                     {
                         for(int i=0;i < d2PositionXInt+d2.width-d1PositionXInt;i++) {
                             for(int j=0;j < d2PositionYInt+d2.height-d1PositionYInt;j++){
-                                if(d1.gameImage.imageBoolArray[i][j] && d2.gameImage.imageBoolArray[d1PositionXInt-d2PositionXInt +i][d1PositionYInt-d2PositionYInt +j]) return true;
+                                if(d1PositionXInt-d2PositionXInt + i >= d2.height-1
+                                        || d1PositionYInt-d2PositionYInt + j >= d2.width-1) return false;
+                                try{
+                                    if(d1.gameImage.imageBoolArray[i][j] && d2.gameImage.imageBoolArray[d1PositionXInt-d2PositionXInt + i][d1PositionYInt-d2PositionYInt + j]) return true;
+
+                                }
+                                catch (ArrayIndexOutOfBoundsException ex){
+                                    ex.printStackTrace();
+                                }
                             }
                         }
                         return false;

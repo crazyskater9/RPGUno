@@ -1,31 +1,58 @@
 package Game;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.awt.*;
 
 public class Hostile extends NPC {
 
-    ArrayList<Vector2D> movementPath;
-    Iterator<Vector2D> iterator;
+    private int pullRange;
+    private int curSpeed;
+    private int maxSpeed;
+    public static Vector2D playerMiddlePosition;
 
-    public Hostile(Vector2D position, Vector2D movement, ArrayList<Vector2D> movementPath) {
-        super(new Vector2D(position), new Vector2D(movement), "images/enemy1.png", 10);
-
-        this.movementPath = new ArrayList<Vector2D>();
-        for(Vector2D v : movementPath) {
-            this.movementPath.add(v.add(position));
-        }
-
-        iterator = movementPath.iterator();
+    public Hostile(Vector2D position, int maxSpeed, String imagePath, int health, int pullRange){
+        super(position, new Vector2D(), imagePath, health);
+        this.pullRange = pullRange;
+        this.maxSpeed = maxSpeed;
+        curSpeed = 0;
+        playerMiddlePosition = new Vector2D();
     }
 
-    public void move() {
-        if(iterator.hasNext()) {
-            position = iterator.next();
-        }
-        else{
-            iterator = movementPath.iterator();
-            position = iterator.next();
-        }
+    public void paint(Graphics g) {
+
+        checkBorders();
+        updateMovement();
+        super.paint(g);
     }
+
+    void updateMovement() {
+
+        Vector2D vec = new Vector2D(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
+        if(vec.magnitude() <= pullRange){
+            if(curSpeed <= maxSpeed) curSpeed++;
+            movement.set(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
+        }
+//        if(playerMiddlePosition.x <= position.x + width/2 + pullRange && playerMiddlePosition.x >= position.x + width/2 - pullRange
+//                && playerMiddlePosition.y <= position.y + height/2 + pullRange && playerMiddlePosition.y >= position.y + height/2 - pullRange) {
+//            if(curSpeed <= maxSpeed) curSpeed++;
+//            movement.set(playerMiddlePosition.x - position.x, playerMiddlePosition.y - position.y);
+//        }
+        else if(curSpeed > 0) curSpeed--;
+
+        if(Math.abs(movement.magnitude()) < 20) movement.set(0,0);
+
+        movement.normalize().multiply(curSpeed);
+    }
+
+    private void checkBorders() {
+        if(position.x < 0) position.x = 0;
+        if(position.x > Landscape.WIDTH - width) position.x = Landscape.WIDTH - width;
+        if(position.y < 0) position.y = 0;
+        if(position.y > Landscape.HEIGHT - height) position.y = Landscape.HEIGHT - height;
+    }
+
+    @Override
+    public String toString() {
+        return "Hostile (" + position.x + ", " + position.y + ")";
+    }
+
 }

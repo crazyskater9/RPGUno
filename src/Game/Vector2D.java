@@ -53,7 +53,7 @@ public class Vector2D {
         return this;
     }
 
-    Vector2D multiply(int factor) {
+    Vector2D multiply(float factor) {
         x *= factor;
         y *= factor;
         return this;
@@ -64,4 +64,13 @@ public class Vector2D {
         this.y = y;
     }
 
+    void set(Vector2D vector2D) {
+        this.x = vector2D.x;
+        this.y = vector2D.y;
+    }
+
+    @Override
+    public String toString() {
+        return "X: " + x + " | Y: " + y;
+    }
 }
