@@ -24,18 +24,13 @@ public class Hostile extends NPC {
         super.paint(g);
     }
 
-    void updateMovement() {
+    private void updateMovement() {
 
         Vector2D vec = new Vector2D(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
         if(vec.magnitude() <= pullRange){
             if(curSpeed <= maxSpeed) curSpeed++;
             movement.set(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
         }
-//        if(playerMiddlePosition.x <= position.x + width/2 + pullRange && playerMiddlePosition.x >= position.x + width/2 - pullRange
-//                && playerMiddlePosition.y <= position.y + height/2 + pullRange && playerMiddlePosition.y >= position.y + height/2 - pullRange) {
-//            if(curSpeed <= maxSpeed) curSpeed++;
-//            movement.set(playerMiddlePosition.x - position.x, playerMiddlePosition.y - position.y);
-//        }
         else if(curSpeed > 0) curSpeed--;
 
         if(Math.abs(movement.magnitude()) < 20) movement.set(0,0);

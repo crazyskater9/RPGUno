@@ -37,19 +37,19 @@ public class Projectile extends Drawable{
             // Drawing the rotated image at the required drawing locations
             g.drawImage(op.filter(gameImage.image, null), GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y, null);
         }
-        else if(hitFlag == true)
+        else if(hitFlag)
         {
             onHitAnimationTime--;
             drawOnHitDamage(g);
         }
     }
 
-    protected void decrementLifeTime()
+    private void decrementLifeTime()
     {
         lifeTime--;
     }
 
-    public void drawOnHitDamage(Graphics graphics)
+    private void drawOnHitDamage(Graphics graphics)
     {
         Font hitFont;
         int positionX = GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x;
@@ -68,10 +68,5 @@ public class Projectile extends Drawable{
         }
 
 
-    }
-
-    public Vector2D getPlayerPosition(Vector2D playerPosition)
-    {
-        return playerPosition;
     }
 }

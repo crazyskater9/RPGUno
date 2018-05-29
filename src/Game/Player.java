@@ -7,8 +7,8 @@ import java.util.Set;
 
 public class Player extends Drawable{
 
-    int curSpeed;
-    int maxSpeed;
+    private int curSpeed;
+    private int maxSpeed;
     ArrayList<Projectile> projectileList;
 
 
@@ -69,7 +69,7 @@ public class Player extends Drawable{
         if(position.y > Landscape.HEIGHT - height) position.y = Landscape.HEIGHT - height;
     }
 
-    void shoot(){
+    private void shoot(){
         if((GameData.activePanel instanceof GamePanel) && (GameData.clickedMouseButton != 0))
         {
             GameData.clickedMouseButton = 0;
@@ -89,11 +89,11 @@ public class Player extends Drawable{
         }
     }
 
-    void paintAndCheckProjectiles(Graphics g){
+    private void paintAndCheckProjectiles(Graphics g){
         for (Iterator<Projectile> iterator = projectileList.iterator(); iterator.hasNext();) {
             Projectile projectile = iterator.next();
 
-            if(projectile.onHitAnimationTime <= 0 || ((projectile.lifeTime<=0) && (projectile.hitFlag == false))) {
+            if(projectile.onHitAnimationTime <= 0 || ((projectile.lifeTime<=0) && (!projectile.hitFlag))) {
                  iterator.remove();
             }
             else {
