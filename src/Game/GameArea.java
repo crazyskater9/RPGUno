@@ -126,32 +126,39 @@ public class GameArea {
 
     boolean compareBoolArrays(Drawable d1, Drawable d2)
     {
-        if(d1.position.x<d2.position.x)
+        int d1PositionXInt = (int) d1.position.x;
+        int d1PositionYInt = (int) d1.position.y;
+        int d2PositionXInt = (int) d2.position.x;
+        int d2PositionYInt = (int) d2.position.y;
+
+        if(d1PositionXInt < d2PositionXInt)
         {
-            if(d1.position.x+d1.width <= d2.position.x) return false;
+            if(d1PositionXInt+d1.width <= d2PositionXInt) return false;
             else
             {
-                if(d1.position.y<d2.position.y)
+                // Top Left
+                if(d1PositionYInt < d2PositionYInt)
                 {
-                    if(d1.position.y+d1.height <= d2.position.y) return false;
+                    if(d1PositionYInt + d1.height <= d2PositionYInt) return false;
                     else
                     {
-                        for(int i=0;i<d1.position.x+d1.width-d2.position.x;i++) {
-                            for(int j=0;j<d1.position.y+d1.height-d2.position.y;j++){
-                                if(d1.gameImage.imageBoolArray[(int)(d2.position.x-d1.position.x)+i][(int)(d2.position.y-d1.position.y)+j] && d2.gameImage.imageBoolArray[i][j]) return true;
+                        for(int i=0;i < d1PositionXInt + d1.width - d2PositionXInt;i++) {
+                            for(int j=0;j < d1PositionYInt + d1.height - d2PositionYInt;j++){
+                                if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt +i][d2PositionYInt-d1PositionYInt +j] && d2.gameImage.imageBoolArray[i][j]) return true;
                             }
                         }
                         return false;
                     }
                 }
+                // Bottom Left
                 else
                 {
-                    if(d2.position.y+d2.height <= d1.position.y) return false;
+                    if(d2PositionYInt+d2.height <= d1PositionYInt) return false;
                     else
                     {
-                        for(int i=0;i<d1.position.x+d1.width-d2.position.x;i++) {
-                            for(int j=0;j<d2.position.y+d2.height-d1.position.y;j++){
-                                if(d1.gameImage.imageBoolArray[(int)(d2.position.x-d1.position.x)+i][j] && d2.gameImage.imageBoolArray[i][(int)(d1.position.y-d2.position.y)+j]) return true;
+                        for(int i=0;i < d1PositionXInt+d1.width-d2PositionXInt;i++) {
+                            for(int j=0;j < d2PositionYInt+d2.height-d1PositionYInt;j++){
+                                if(d1.gameImage.imageBoolArray[d2PositionXInt-d1PositionXInt +i][j] && d2.gameImage.imageBoolArray[i][d1PositionYInt-d2PositionYInt +j]) return true;
                             }
                         }
                         return false;
@@ -161,29 +168,31 @@ public class GameArea {
         }
         else
         {
-            if(d2.position.x+d2.width <= d1.position.x) return false;
+            if(d2PositionXInt+d2.width <= d1PositionXInt) return false;
             else
             {
-                if(d1.position.y<d2.position.y)
+                // Top Right
+                if(d1PositionYInt < d2PositionYInt)
                 {
-                    if(d1.position.y+d1.height <= d2.position.y) return false;
+                    if(d1PositionYInt+d1.height <= d2PositionYInt) return false;
                     else{
-                        for(int i=0;i<d2.position.x+d2.width-d1.position.x;i++) {
-                            for(int j=0;j<d1.position.y+d1.height-d2.position.y;j++){
-                                if(d1.gameImage.imageBoolArray[i][(int)(d2.position.y-d1.position.y)+j] && d2.gameImage.imageBoolArray[(int)(d1.position.x-d2.position.x)+i][j]) return true;
+                        for(int i=0;i < d2PositionXInt+d2.width-d1PositionXInt;i++) {
+                            for(int j=0;j < d1PositionYInt+d1.height-d2PositionYInt;j++){
+                                if(d1.gameImage.imageBoolArray[i][d2PositionYInt - d1PositionYInt +j] && d2.gameImage.imageBoolArray[d1PositionXInt - d2PositionXInt +i][j]) return true;
                             }
                         }
                         return false;
                     }
                 }
+                // Bottom Right
                 else
                 {
-                    if(d2.position.y+d2.height <= d1.position.y) return false;
+                    if(d2PositionYInt+d2.height <= d1PositionYInt) return false;
                     else
                     {
-                        for(int i=0;i<d2.position.x+d2.width-d1.position.x;i++) {
-                            for(int j=0;j<d2.position.y+d2.height-d1.position.y;j++){
-                                if(d1.gameImage.imageBoolArray[i][j] && d2.gameImage.imageBoolArray[(int)(d1.position.x-d2.position.x)+i][(int)(d1.position.y-d2.position.y)+j]) return true;
+                        for(int i=0;i < d2PositionXInt+d2.width-d1PositionXInt;i++) {
+                            for(int j=0;j < d2PositionYInt+d2.height-d1PositionYInt;j++){
+                                if(d1.gameImage.imageBoolArray[i][j] && d2.gameImage.imageBoolArray[d1PositionXInt-d2PositionXInt +i][d1PositionYInt-d2PositionYInt +j]) return true;
                             }
                         }
                         return false;
