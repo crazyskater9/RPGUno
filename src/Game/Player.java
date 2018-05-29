@@ -93,8 +93,8 @@ public class Player extends Drawable{
         for (Iterator<Projectile> iterator = projectileList.iterator(); iterator.hasNext();) {
             Projectile projectile = iterator.next();
 
-            if(projectile.lifeTime == 0) {
-                iterator.remove();
+            if(projectile.onHitAnimationTime <= 0 || ((projectile.lifeTime<=0) && (projectile.hitFlag == false))) {
+                 iterator.remove();
             }
             else {
                 projectile.paint(g);

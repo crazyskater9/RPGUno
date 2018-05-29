@@ -106,11 +106,12 @@ public class GameArea {
             }
 
             for (Drawable drawable : landscape.objects) {
-                if (drawable.isNotPassable() && !(drawable instanceof Player)) {
+                if (drawable.isNotPassable() && !(drawable instanceof Player) && (projectile.lifeTime>0)) {
                     if (compareBoolArrays(projectile, drawable)) {
                         projectile.lifeTime = 0;
                         if(drawable.maxHealth != -1)
                         {
+                            projectile.hitFlag = true;
                             drawable.curHealth -= projectile.damageOnHit;
                         }
 //                        System.out.println(drawable + " was hit for " + projectile.damageOnHit + " Damage | Health = " + drawable.health);
