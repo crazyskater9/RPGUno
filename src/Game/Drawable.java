@@ -9,10 +9,13 @@ public class Drawable {
     public int height;
     public GameImage gameImage;
     protected boolean passable;
-    public int health;
+    public int maxHealth;
+    public int curHealth;
+    private LifeBar lifeBar;
 
     public Drawable(){
         this.movement = new Vector2D();
+        this.lifeBar = new LifeBar();
     }
 
     public Drawable(Drawable drawable){
@@ -25,6 +28,7 @@ public class Drawable {
         this.width = drawable.width;
         this.height = drawable.height;
         this.passable = drawable.passable;
+        this.lifeBar = new LifeBar();
     }
 
     public Drawable(Vector2D position, Vector2D movement, GameImage gameImage, boolean passable, int health) {
@@ -34,10 +38,15 @@ public class Drawable {
         this.width = gameImage.image.getWidth();
         this.height = gameImage.image.getHeight();
         this.passable = passable;
-        this.health = health;
+        this.maxHealth = health;
+        this.curHealth = health;
+        this.lifeBar = new LifeBar();
     }
 
-    public void paint(Graphics g) {gameImage.paint(g,GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y);}
+    public void paint(Graphics g) {
+        gameImage.paint(g,GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y);
+        lifeBar.drawLifeBar(g,this);
+    }
 
     boolean isPassable(){return passable;}
 

@@ -33,7 +33,7 @@ public class Player extends Drawable{
     }
 
     public Player(Player player) {
-        super(player.position, player.movement, player.gameImage, player.passable, player.health);
+        super(player.position, player.movement, player.gameImage, player.passable, player.maxHealth);
     }
 
     public void paint(Graphics g) {

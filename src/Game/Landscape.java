@@ -166,7 +166,7 @@ public class Landscape {
                 }
                 else if(d instanceof Wall){
                     fos.write("WALL".getBytes());
-                    bytes = ByteBuffer.allocate(4).putInt(d.health).array();
+                    bytes = ByteBuffer.allocate(4).putInt(d.maxHealth).array();
                     fos.write(bytes);
                 }
                 else if(d instanceof Ground){

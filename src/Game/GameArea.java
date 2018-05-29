@@ -36,7 +36,7 @@ public class GameArea {
     void paint(Graphics g){
         for(Iterator<Drawable> iterator = landscape.objects.iterator(); iterator.hasNext();) {
             Drawable d = iterator.next();
-            if(d.health == 0) iterator.remove();
+            if((d.curHealth <= 0) && (d.maxHealth != -1)) iterator.remove();
             else d.paint(g);
 
             if(d instanceof Player){
@@ -113,10 +113,10 @@ public class GameArea {
                 if (drawable.isNotPassable() && !(drawable instanceof Player)) {
                     if (compareBoolArrays(projectile, drawable)) {
                         projectile.lifeTime = 0;
-
-                        if (drawable.health - projectile.damageOnHit > 0) drawable.health -= projectile.damageOnHit;
-                        else if (drawable.health != -1) drawable.health = 0;
-
+                        if(drawable.maxHealth != -1)
+                        {
+                            drawable.curHealth -= projectile.damageOnHit;
+                        }
 //                        System.out.println(drawable + " was hit for " + projectile.damageOnHit + " Damage | Health = " + drawable.health);
                     }
                 }
