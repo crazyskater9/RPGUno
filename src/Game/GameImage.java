@@ -53,14 +53,30 @@ public class GameImage {
         }
     }
 
-    private void debugImageBoolArray()
+    public void debugImageBoolArray()
     {
-        System.out.print(image.getSource());
+        System.out.print(image.getSource() + "\n");
         for(int i=0;i<image.getHeight();i++)
         {
             for(int j=0;j<image.getWidth();j++)
             {
                 if(imageBoolArray[j][i]) System.out.print(1);
+                else System.out.print(0);
+
+                System.out.print(" ");
+                //System.out.println("x: " + i + " y: " + j + " -> " + imageBoolArray[i][j]);
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public static void debugImageBoolArray(boolean[][] array)
+    {
+        for(int i=0;i<array[i].length;i++)
+        {
+            for(int j=0;j<array.length;j++)
+            {
+                if(array[j][i]) System.out.print(1);
                 else System.out.print(0);
 
                 System.out.print(" ");

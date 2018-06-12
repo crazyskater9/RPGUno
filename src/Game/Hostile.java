@@ -28,7 +28,7 @@ public class Hostile extends NPC {
 
         Vector2D vec = new Vector2D(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
         if(vec.magnitude() <= pullRange){
-            if(curSpeed <= maxSpeed) curSpeed++;
+            if(curSpeed < maxSpeed) curSpeed++;
             movement.set(playerMiddlePosition.x - (position.x + width/2), playerMiddlePosition.y - (position.y + height/2));
         }
         else if(curSpeed > 0) curSpeed--;

@@ -58,6 +58,10 @@ public class Drawable {
         position.add(movement);
     }
 
+    public void unmove() {
+        position.subtract(movement);
+    }
+
     public String toString() {
         return "Drawable (" + position.x + ", " + position.y + ")";
     }

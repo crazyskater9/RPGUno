@@ -16,6 +16,11 @@ public class Vector2D {
         this.y = y;
     }
 
+    Vector2D(double x, double y){
+        this.x = (float) x;
+        this.y = (float) y;
+    }
+
     Vector2D(Vector2D vector){
         this.x = vector.x;
         this.y = vector.y;
@@ -47,13 +52,13 @@ public class Vector2D {
         return this;
     }
 
-    Vector2D substract(Vector2D vector) {
+    Vector2D subtract(Vector2D vector) {
         x -= vector.x;
         y -= vector.y;
         return this;
     }
 
-    Vector2D multiply(float factor) {
+    Vector2D multiply(double factor) {
         x *= factor;
         y *= factor;
         return this;

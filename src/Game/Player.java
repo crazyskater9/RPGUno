@@ -56,7 +56,7 @@ public class Player extends Drawable{
 
         if(keysPressed.contains('d')) movement.x += 1;
 
-        if((movement.x != 0 || movement.y != 0) && curSpeed <= maxSpeed) curSpeed++;
+        if((movement.x != 0 || movement.y != 0) && curSpeed < maxSpeed) curSpeed++;
         else if(curSpeed > 0) curSpeed--;
 
         movement.normalize().multiply(curSpeed);
