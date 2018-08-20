@@ -56,7 +56,6 @@ public class GameArea {
             if(s.duration <= 0)
             {
                 iterator.remove();
-                System.out.println("removeString");
             }
         }
     }

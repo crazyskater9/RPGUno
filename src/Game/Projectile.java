@@ -18,23 +18,33 @@ public class Projectile extends Drawable{
         this.lifeTime = lifeTime;
         this.damageOnHit = damageOnHit;
         this.hitFlag = false;
+
+        rotateProjectile();
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics graphics) {
         decrementLifeTime();
 
         if(lifeTime>0 && !hitFlag )
         {
             move();
-            double rotationRequired = Math.toRadians (-movement.angle());
-            double locationX = gameImage.image.getWidth() / 2;
-            double locationY = gameImage.image.getHeight() / 2;
-            AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-            AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
             // Drawing the rotated image at the required drawing locations
-            g.drawImage(op.filter(gameImage.image, null), GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x, GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y, null);
+            graphics.drawImage(gameImage.image,
+                            GameData.WIDTH/2 + (int)position.x - (int)GameData.landscapeToPlayerVector.x,
+                            GameData.HEIGHT/2 + (int)position.y - (int)GameData.landscapeToPlayerVector.y, null);
         }
+    }
+
+    private void rotateProjectile()
+    {
+        double rotationRequired = Math.toRadians (-movement.angle());
+        double locationX = gameImage.image.getWidth() / 2;
+        double locationY = gameImage.image.getHeight() / 2;
+        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+
+        gameImage = new GameImage(op.filter(gameImage.image, null));
     }
 
     private void decrementLifeTime()

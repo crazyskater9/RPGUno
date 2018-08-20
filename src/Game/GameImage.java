@@ -42,6 +42,7 @@ public class GameImage {
     private void readBoolArrayFromImage()
     {
         int pixel;
+        imageBoolArray = new boolean[image.getWidth()][image.getHeight()];
 
         for(int i=0;i<image.getWidth();i++)
         {
