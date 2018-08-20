@@ -1,8 +1,6 @@
 package Game;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 public class GameString {
 
@@ -10,22 +8,22 @@ public class GameString {
     private Font stringFont;
     private String message;
     private Color stringColor;
-    private int duration;
+    public int duration;
     private Graphics graphics;
 
-    public GameString(String message, Vector2D position, Font stringFont, Color stringColor, int duration, Graphics graphics){
+    public GameString(String message, Vector2D position, Font stringFont, Color stringColor, int duration){
         this.message = message;
         this.position = new Vector2D(position);
         this.stringFont = stringFont;
         this.stringColor = stringColor;
         this.duration = duration;
-        this.graphics = graphics,
     }
 
-    private void drawString(){
+    public void drawString(Graphics graphics){
+        stringFont = stringFont.deriveFont(10.0f);
         graphics.setFont(stringFont);
         graphics.setColor(stringColor);
-        graphics.drawString(message, (int)position.x ,(int)position.y+(int)(duration*0.5));
+        graphics.drawString(message, GameData.toScreenX((int)position.x) ,GameData.toScreenY((int)position.y+(int)(duration*0.6)));
         decreaseDuration();
     }
 

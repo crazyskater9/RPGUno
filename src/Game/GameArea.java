@@ -1,6 +1,8 @@
 package Game;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -8,9 +10,11 @@ public class GameArea {
 
     GameKeyListener gameKeyListener;
     Landscape landscape;
+    private ArrayList<GameString> gameStrings;
 
     public GameArea(GameKeyListener gameKeyListener){
         this.gameKeyListener = gameKeyListener;
+        this.gameStrings = new ArrayList<GameString>();
         landscape = new Landscape("levels/level1.map");
 
         landscape.objects.add(new Hostile(new Vector2D(300,100),1, "images/enemy1.png", 10, 300));
@@ -43,6 +47,16 @@ public class GameArea {
             else if(d instanceof Hostile){
                 checkOverlaps();
                 d.move();
+            }
+        }
+        for(Iterator<GameString> iterator = gameStrings.iterator(); iterator.hasNext();){
+            GameString s = iterator.next();
+
+            s.drawString(g);
+            if(s.duration <= 0)
+            {
+                iterator.remove();
+                System.out.println("removeString");
             }
         }
     }
@@ -163,6 +177,19 @@ public class GameArea {
                         {
                             projectile.hitFlag = true;
                             drawable.curHealth -= projectile.damageOnHit;
+                            try{
+                                gameStrings.add(new GameString(Integer.toString(projectile.damageOnHit),
+                                                new Vector2D((int)projectile.position.x,
+                                                             (int)projectile.position.y - 10),
+                                                Font.createFont(Font.TRUETYPE_FONT, new File("./fonts/PressStart2P-Regular.ttf")),
+                                                Color.BLACK,
+                                                GameData.ONHITTEXTDURATION));
+
+                            }
+                            catch (IOException |FontFormatException e)
+                            {
+                                System.out.print(e);
+                            }
                         }
 //                        System.out.println(drawable + " was hit for " + projectile.damageOnHit + " Damage | Health = " + drawable.health);
                     }
